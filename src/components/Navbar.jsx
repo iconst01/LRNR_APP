@@ -7,7 +7,7 @@ export default function Navbar() {
             <a href="#" className="brand-logo left" style={{marginLeft: "2rem"}}>lrnr</a>
             <ul id="nav-mobile" class="right">
                 <li><Link to="/account">Account</Link></li>
-                <li><Link to="/quizGen">Quiz Generation</Link></li>
+                <li><Link to="/quizgen">Quiz Generation</Link></li>
             </ul>
             </div>
       </nav>
