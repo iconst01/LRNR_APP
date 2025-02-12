@@ -1,5 +1,4 @@
 import logo from "../assets/logo.png";
-import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import styled from "styled-components";
 
@@ -25,7 +24,6 @@ const ResponsiveDiv = styled.div`
 export default function Home() {
   return (
     <>
-      <Navbar />
       <div className="container">
         <div className="container center-align">
           <img
@@ -121,7 +119,6 @@ export default function Home() {
           </div>
         </ResponsiveDiv>
       </div>
-      <Footer />
     </>
   );
 }
