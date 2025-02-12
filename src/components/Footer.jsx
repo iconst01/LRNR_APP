@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
-    <footer className="page-footer light-blue darken-2" style={{marginTop: "8rem"}}>
+    <footer className="page-footer light-blue darken-2 quizFooter" style={{marginTop: "8rem"}}>
       <div className="container">
         <div className="row">
           <div className="col l6 s12">
