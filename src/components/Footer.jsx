@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 export default function Footer() {
   return (
     <footer className="page-footer light-blue darken-2" style={{marginTop: "8rem"}}>
-      <div className="container">
+      <div style={{marginLeft: "2rem"}}>
         <div className="row">
           <div className="col l6 s12">
             <p className="grey-text text-lighten-4">
@@ -21,7 +21,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="footer-copyright">
-        <div className="container"> © 2024 Copyright Text
+        <div style={{marginLeft: "2rem"}}> © 2024 Copyright Text
         </div>
       </div>
     </footer>
