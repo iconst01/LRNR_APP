@@ -6,13 +6,13 @@ export default function Footer() {
       className="page-footer light-blue darken-2"
       style={{ marginTop: "8rem" }}
     >
-      <div className="container">
+      <div style={{marginLeft: "2rem"}}>
         <div className="row">
           <div className="col l6 s12">
             <p className="grey-text text-lighten-4">
               Embrace the power of our app and unlock the secrets of the
-              universe, one quiz at a time. As I always say 'Yesterday is
-              history, tomorrow is a mystery, but today is a gift. That's why
+              universe, one quiz at a time. <br/> As I always say 'Yesterday is
+              history, tomorrow is a mystery, but today is a gift. That is <br/> why
               it's called the present.'
             </p>
           </div>
