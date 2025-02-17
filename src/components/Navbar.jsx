@@ -12,7 +12,7 @@ export default function Navbar() {
             <Link to="/account">Account</Link>
           </li>
           <li>
-            <Link to="/quizGen">Quiz Generation</Link>
+            <Link to="/quiz-gen">Quiz Generation</Link>
           </li>
         </ul>
       </div>

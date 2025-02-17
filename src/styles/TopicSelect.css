@@ -7,7 +7,7 @@ body {
 }
 
 .main-container {
-    min-height: 100vh;
+    min-height: 80vh;
     flex-grow: 1;
     /* Allows the main content to expand */
     padding: 35px;
