@@ -1,0 +1,10 @@
+#root {
+  display: grid;
+  height: fit-content;
+  min-height: 100vh;
+  grid-template-rows: auto 1fr auto;
+}
+
+#root :where(nav, .main, footer) {
+  width: 100%;
+}
