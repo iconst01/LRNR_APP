@@ -1,9 +1,9 @@
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
     <footer
-      className="page-footer light-blue darken-2"
+      className="page-footer light-blue darken-2 quizFooter"
       style={{ marginTop: "8rem" }}
     >
       <div className="container">
@@ -19,9 +19,21 @@ export default function Footer() {
           <div className="col l4 offset-l2 s12">
             <h5 className="white-text">Links</h5>
             <ul>
-              {/* <li><Link className="grey-text text-lighten-3" to="/link1">Home</Link> </li> */}
-              {/* <li><Link className="grey-text text-lighten-3" to="/link2">Quiz Generator</Link></li> */}
-              {/* <li><Link className="grey-text text-lighten-3" to="/link3">Account</Link></li> */}
+              <li>
+                <Link className="grey-text text-lighten-3" to="/">
+                  Home
+                </Link>{" "}
+              </li>
+              <li>
+                <Link className="grey-text text-lighten-3" to="/quiz-gen">
+                  Quiz Generator
+                </Link>
+              </li>
+              <li>
+                <Link className="grey-text text-lighten-3" to="/account">
+                  Account
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
