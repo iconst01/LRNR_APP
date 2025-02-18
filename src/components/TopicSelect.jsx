@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'materialize-css/dist/css/materialize.min.css';
 import 'materialize-css/dist/js/materialize.min.js';
-import { GoogleGenerativeAI } from '@google/generative-ai'; // Import the API package
+// import { GoogleGenerativeAI } from '@google/generative-ai'; // Import the API package
 
 const TopicSelect = () => {
     const [formData, setFormData] = useState({
@@ -28,8 +28,8 @@ const TopicSelect = () => {
         setLoading(true); // Start loading
         try {
             // Initialize the Google Generative AI
-            const genAI = new GoogleGenerativeAI("AIzaSyBjiDeD5CMe5A3jsRYhTlFup_0TqVBpk4o");
-            const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+            // const genAI = new GoogleGenerativeAI("AIzaSyBjiDeD5CMe5A3jsRYhTlFup_0TqVBpk4o");
+            // const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
             const prompt = `Generate ${formData.numberOfQuestions} ${formData.styleOfQuestions} questions for a ${formData.expertise} level in the topic of ${formData.topic}.`;
 
