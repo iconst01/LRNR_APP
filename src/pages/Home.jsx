@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 import logo from "../assets/logo.png";
-import Footer from "../components/Footer";
+// import Footer from "../components/Footer";
 import styled from "styled-components";
 
 import "materialize-css/dist/css/materialize.min.css";
@@ -17,10 +17,10 @@ const ResponsiveDiv = styled.div`
   gap: 2rem;
 
   @media (max-width: 850px) {
-   & div {
-    margin: 0 auto;
-    width: 80% !important;
-   }
+    & div {
+      margin: 0 auto;
+      width: 80% !important;
+    }
     position: relative;
     right: 2.5%;
     flex-direction: column;
@@ -30,7 +30,7 @@ const ResponsiveDiv = styled.div`
 export default function Home() {
   return (
     <>
-      <div className="container">
+      <div className="container main">
         <div className="container center-align">
           <img
             src={logo}
