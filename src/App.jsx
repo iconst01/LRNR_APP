@@ -7,6 +7,8 @@ import QuizGen from "./pages/QuizGen";
 // import QuizPage from "./pages/QuizPage";
 import Account from "./pages/Account";
 // import Results from "./pages/Results";
+import QuizPage from './pages/QuizPage';
+import ResultPage from './pages/ResultPage';
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
         <Route path="/quiz-gen" element={<QuizGen />} />
         {/* <Route path="/quiz-page" element={<QuizPage />} /> */}
         {/* <Route path="/results" element={<Results />} /> */}
+        <Route path="/questions" element={<QuizPage />} />
+        <Route path="/results" element={<ResultPage />} />
       </Routes>
       <Footer />
     </Router>
