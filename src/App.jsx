@@ -4,7 +4,7 @@ import NavBar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import QuizGen from "./pages/QuizGen";
-// import QuizPage from "./pages/QuizPage";
+import QuizPage from "./pages/QuizPage";
 import Account from "./pages/Account";
 // import Results from "./pages/Results";
 
