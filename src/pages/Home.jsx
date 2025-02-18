@@ -24,7 +24,7 @@ const ResponsiveDiv = styled.div`
 export default function Home() {
   return (
     <>
-      <div className="container">
+      <div className="container main">
         <div className="container center-align">
           <img
             src={logo}
