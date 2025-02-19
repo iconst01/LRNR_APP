@@ -8,7 +8,7 @@ const ResultsPage = () => {
 
     return (
         <div className="section container center-align">
-        <h2 className="center-align teal-text text-darken-5">lrnr</h2>
+        <h1 className="center-align teal-text text-darken-5">lrnr</h1>
         <h5>Questions Right: 0111</h5>
         <div className="section">
         <button className="btnTry waves-effect waves-light teal darken-1 btn-large" onClick={() => navigate("/quiz-gen")}>
