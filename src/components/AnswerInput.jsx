@@ -1,3 +1,4 @@
+import React from "react";
 function AnswerInput({ answer, setAnswer, error }) {
     return (
         <div className="section answerContainer">
@@ -9,7 +10,7 @@ function AnswerInput({ answer, setAnswer, error }) {
                         type="text"
                         value={answer}
                         onChange={(e) => setAnswer(e.target.value)}
-                        className={`validate" ${error ? "invalid" : ""}`}
+                        className={`validate ${error ? "invalid" : ""}`}
                     />
                     <label htmlFor="answer" className={answer ? "active" : ""}>
                         Enter your answer

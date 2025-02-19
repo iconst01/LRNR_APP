@@ -1,3 +1,4 @@
+import React from "react";
 function QuestionNumber({ current, total }) {
     return (
         <h3 className="center-align teal-text text-darken-5">
