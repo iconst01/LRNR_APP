@@ -1,5 +1,9 @@
+import { useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "../context/UserProvider";
 import "materialize-css/dist/css/materialize.min.css";
 import "materialize-css/dist/js/materialize.min.js";
+import "../styles/Account.css";
 import styled from "styled-components";
 
 const ResponsiveDiv = styled.div`
@@ -19,12 +23,21 @@ const ResponsiveDiv = styled.div`
 `;
 
 const Account = () => {
+  const navigate = useNavigate();
+  const { user } = useContext(UserContext);
+  useEffect(() => {
+    if (!user) {
+      navigate("/login");
+      return;
+    }
+  }, []);
+
   return (
-    <div className="">
-      <div>
+    <div>
+      <div className="titleAcc section teal-text text-darken-5">
         <h1>Account</h1>
       </div>
-      <div className="container">
+      <div className="container section">
         <ResponsiveDiv
           className="row center-align"
           style={{ display: "flex", justifyContent: "center", gap: "2rem" }}
@@ -35,13 +48,15 @@ const Account = () => {
               style={{
                 color: "#1de9b6",
                 transform: "scale(2)",
-                marginBottom: "1rem",
+                marginBottom: "2rem",
               }}
             >
-              flash_on
+              whatshot
             </span>
             <h5>Streak</h5>
-            <p className="center-align">Greetings, young padawan</p>
+            <p className="left-align containerTxt">
+              You have a streak of 5 days!
+            </p>
           </div>
           <div className="col s12 m4">
             <span
@@ -49,13 +64,17 @@ const Account = () => {
               style={{
                 color: "#1de9b6",
                 transform: "scale(2)",
-                marginBottom: "1rem",
+                marginBottom: "2rem",
               }}
             >
-              payments
+              view_list
             </span>
             <h5>Platinum Quizzes</h5>
-            <p className="center-align">Our app</p>
+            <ul className="left-align containerTxt">
+              <li>golang - intermediate</li>
+              <li>JavaScript - beginner</li>
+              <li>AWS - beginner</li>
+            </ul>
           </div>
           <div className="col s12 m4">
             <span
@@ -63,13 +82,13 @@ const Account = () => {
               style={{
                 color: "#1de9b6",
                 transform: "scale(2)",
-                marginBottom: "1rem",
+                marginBottom: "2rem",
               }}
             >
               person
             </span>
             <h5>lrnr Level: 2</h5>
-            <p className="center-align">Welcome to</p>
+            <p className="center-align containerTxt">150/200 xp</p>
           </div>
         </ResponsiveDiv>
       </div>

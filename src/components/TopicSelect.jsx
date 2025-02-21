@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import 'materialize-css/dist/css/materialize.min.css';
 import 'materialize-css/dist/js/materialize.min.js';
 
 
 const TopicSelect = () => {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         topic: '',
         expertise: '',
@@ -96,6 +98,7 @@ const TopicSelect = () => {
                         <button
                             className="btn waves-effect waves-light teal"
                             type="submit"
+                            onClick={() => navigate("/quiz-page")}
                         >
                             SUBMIT
                         </button>
