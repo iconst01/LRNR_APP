@@ -1,0 +1,15 @@
+.titleAcc{
+    margin-left: 6rem;
+    margin-bottom: 2rem;
+}
+
+.containerTxt{
+    margin-top: 2rem;
+}
+
+@media (max-width: 768px) {
+    .titleAcc {
+        text-align: center;
+        margin-left: 0;
+    }
+}
