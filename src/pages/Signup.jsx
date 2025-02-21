@@ -5,7 +5,7 @@ import { User } from "../utils";
 import { UserContext } from "../context/UserProvider";
 
 const Signup = () => {
-  // User context
+  // User global context
   const { user, setUser } = useContext(UserContext);
 
   const navigate = useNavigate();
