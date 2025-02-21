@@ -1,3 +1,6 @@
+import { useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "../context/UserProvider";
 import "materialize-css/dist/css/materialize.min.css";
 import "materialize-css/dist/js/materialize.min.js";
 import "../styles/Account.css";
@@ -20,10 +23,37 @@ const ResponsiveDiv = styled.div`
 `;
 
 const Account = () => {
+  const navigate = useNavigate();
+
+  // User global context
+  const { user, setUser } = useContext(UserContext);
+
+  // Function to logout the user
+  const handleLogout = () => {
+    // Delete the user from the localStorage ( This simulate the user being logged in )
+    localStorage.removeItem("user");
+
+    // Remove the user from the global context
+    setUser(null);
+
+    // Send the user to the home page
+    navigate("/");
+  };
+
+  // Check if the user is login
+  useEffect(() => {
+    if (!user) {
+      navigate("/login");
+      return;
+    }
+  }, []);
+
   return (
     <div>
       <div className="titleAcc section teal-text text-darken-5">
         <h1>Account</h1>
+        {/* This is an example of how the data from the user should be utilized */}
+        <p>{user?.name}</p>
       </div>
       <div className="container section">
         <ResponsiveDiv
@@ -42,7 +72,9 @@ const Account = () => {
               whatshot
             </span>
             <h5>Streak</h5>
-            <p className="left-align containerTxt">You have a streak of 5 days!</p>
+            <p className="left-align containerTxt">
+              You have a streak of 5 days!
+            </p>
           </div>
           <div className="col s12 m4">
             <span
@@ -77,6 +109,9 @@ const Account = () => {
             <p className="center-align containerTxt">150/200 xp</p>
           </div>
         </ResponsiveDiv>
+        <div>
+          <button onClick={handleLogout}>logout</button>
+        </div>
       </div>
     </div>
   );
