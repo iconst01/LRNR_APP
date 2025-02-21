@@ -1,3 +1,6 @@
+import { useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "../context/UserProvider";
 import "materialize-css/dist/css/materialize.min.css";
 import "materialize-css/dist/js/materialize.min.js";
 import "../styles/Account.css";
@@ -20,6 +23,15 @@ const ResponsiveDiv = styled.div`
 `;
 
 const Account = () => {
+  const navigate = useNavigate();
+  const { user } = useContext(UserContext);
+  useEffect(() => {
+    if (!user) {
+      navigate("/login");
+      return;
+    }
+  }, []);
+
   return (
     <div>
       <div className="titleAcc section teal-text text-darken-5">
