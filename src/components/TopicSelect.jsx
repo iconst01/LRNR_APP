@@ -15,7 +15,7 @@ const TopicSelect = () => {
         styleOfQuestions: 'normal'
     });
 
-    // State to store the response text ( errors or success messages)
+    // State to store the response text (e.g., errors or success messages)
     const [responseText, setResponseText] = useState('');
     // State to manage loading state during API calls
     const [loading, setLoading] = useState(false);

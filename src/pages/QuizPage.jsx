@@ -73,7 +73,7 @@ const QuizPage = () => {
                 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" }); // Use the Gemini model
 
                 // Create a prompt to generate feedback for the incorrect answer
-                const prompt = `The question is: "${questions[currentQuestion]}". The correct answer is: "${correctAnswer}". The user answered: "${answer}". Explain why the user's answer is incorrect and provide the correct reasoning. Be detailed and educational.`;
+                const prompt = `The question is: "${questions[currentQuestion]}". The correct answer is: "${correctAnswer}". The user answered: "${answer}". Explain why the user's answer is incorrect and provide the correct reasoning.`;
 
                 // Generate content using the model
                 const result = await model.generateContent(prompt);
