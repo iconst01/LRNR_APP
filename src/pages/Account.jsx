@@ -1,10 +1,15 @@
 import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserProvider";
-import "materialize-css/dist/css/materialize.min.css";
-import "materialize-css/dist/js/materialize.min.js";
+
+import UserInfoCard from "../components/UserInfoCard";
+import LevelCard from "../components/LevelCard";
+
 import "../styles/Account.css";
 import styled from "styled-components";
+import "materialize-css/dist/css/materialize.min.css";
+import "materialize-css/dist/js/materialize.min.js";
+
 
 const ResponsiveDiv = styled.div`
   margin-left: auto;
@@ -50,10 +55,10 @@ const Account = () => {
 
   return (
     <div>
-      <div className="titleAcc section teal-text text-darken-5">
-        <h1>Account</h1>
-        {/* This is an example of how the data from the user should be utilized */}
-        <p>{user?.name}</p>
+      <div className="section teal-text text-darken-5">
+        <h1 className="titleAcc">Account</h1>
+        <LevelCard/>
+        <UserInfoCard/>
       </div>
       <div className="container section">
         <ResponsiveDiv
