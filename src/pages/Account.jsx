@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserProvider";
 
 import UserInfoCard from "../components/UserInfoCard";
-import LevelCard from "../components/LevelCard";
+import UserLevelCard from "../components/UserLevelCard";
+import AccountDashboard from "../components/AccountDashboard";
 
 import "../styles/Account.css";
 import styled from "styled-components";
@@ -57,7 +58,7 @@ const Account = () => {
     <div>
       <div className="section teal-text text-darken-5">
         <h1 className="titleAcc">Account</h1>
-        <LevelCard/>
+        <UserLevelCard/>
         <UserInfoCard/>
       </div>
       {/* <div className="container section">
@@ -118,6 +119,7 @@ const Account = () => {
           <button onClick={handleLogout}>logout</button>
         </div>
       </div> */}
+      <AccountDashboard/>    
     </div>
   );
 };

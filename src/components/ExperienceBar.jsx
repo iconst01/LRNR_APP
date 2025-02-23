@@ -1,7 +1,13 @@
-export default function ExperienceBar({ xp=10 }) {
+
+export default function ExperienceBar({ xp=5 }) {
     return (
-        <div className="progressBar">
+        <div className="progressBarContainer">
+            <div className="progressBar">
             <div className="progressBarFill" style={{ width: `${xp}%` }}></div>
         </div>
+
+        <span>{xp}%</span>
+        </div>
+        
     )
 }

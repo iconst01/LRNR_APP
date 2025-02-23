@@ -1,7 +1,7 @@
 import StreakIcon from "./StreakIcon"
 import ExperienceBar from "./ExperienceBar"
 
-export default function LevelCard({ level=10, xp, xpToNextLevel }) {
+export default function UserLevelCard({ level=10, xp, xpToNextLevel }) {
     return (
         <div className="levelCardWrapper">
             <div className="streakCardWrapper">
