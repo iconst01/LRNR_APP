@@ -9,7 +9,7 @@ export default function LevelCard({ level=10, xp, xpToNextLevel }) {
                     <StreakIcon />  
                         <p className="streakNumber">0</p>
                         <div className="weekStreakText">
-                            <p>days</p>
+                            <p>daily</p>
                             <p>streak</p>
                         </div>                
                 </div>

@@ -60,7 +60,7 @@ const Account = () => {
         <LevelCard/>
         <UserInfoCard/>
       </div>
-      <div className="container section">
+      {/* <div className="container section">
         <ResponsiveDiv
           className="row center-align"
           style={{ display: "flex", justifyContent: "center", gap: "2rem" }}
@@ -117,7 +117,7 @@ const Account = () => {
         <div>
           <button onClick={handleLogout}>logout</button>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
