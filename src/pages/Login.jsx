@@ -62,13 +62,14 @@ const Login = () => {
   return (
     <div className="row">
       <form onSubmit={(event) => loginUser(event)} className="col s12">
-        <div className="row">
+        <div className="row container">
           <div className="input-field col s12">
             <input
               onInput={(event) => setUsernameInput(event.target.value)}
               id="username"
               type="text"
               className="validate"
+              style={{ width: "380px" }}
             />
             <label htmlFor="username">Username</label>
           </div>
@@ -84,11 +85,13 @@ const Login = () => {
             <label htmlFor="password">Password</label>
           </div>
         </div>
-        <div className="row">
-          <input type="submit" value="Login" />
-        </div>
-        <div className="row">
-          <Link to="/signup">Create an account</Link>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <div className="row">
+            <input type="submit" value="Login" />
+          </div>
+          <div className="row">
+            <Link to="/signup">Create an account</Link>
+          </div>
         </div>
       </form>
     </div>
