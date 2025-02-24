@@ -87,9 +87,9 @@ const Login = () => {
         </div>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <div className="row">
-            <input type="submit" value="Login" />
+            <input type="submit" value="Login" className="waves-effect waves-light teal darken-1 btn" />
           </div>
-          <div className="row">
+          <div>
             <Link to="/signup">Create an account</Link>
           </div>
         </div>

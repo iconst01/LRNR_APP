@@ -7,9 +7,19 @@
     margin-top: 2rem;
 }
 
+.logoutBtn{
+    margin-left: 6rem;
+    margin-bottom: 2rem;
+}
+
 @media (max-width: 768px) {
     .titleAcc {
         text-align: center;
         margin-left: 0;
     }
+
+.logoutBtn{
+    margin-left: 2rem;
+    margin-bottom: 2rem;
+}
 }
