@@ -6,11 +6,12 @@ import 'materialize-css/dist/js/materialize.min.js';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { ClipLoader } from 'react-spinners';
 
+
 const TopicSelect = () => {
     //state to manage form data
     const [formData, setFormData] = useState({
         topic: '',
-        customTopic:'',
+        customTopic: '',
         expertise: '',
         numberOfQuestions: '',
         styleOfQuestions: ''
@@ -20,33 +21,38 @@ const TopicSelect = () => {
     //state to manage loading state during API calls
     const [loading, setLoading] = useState(false);
     //useNavigate hook to navigate to different routes
-    const navigate = useNavigate(); 
+    const navigate = useNavigate();
 
     //example topics it can aslo be fetched from API
     const exampleTopics = ['Math', 'Science', 'History'];
 
-//initialize materialize select dropdowns after the component mounts
+    //initialize materialize select dropdowns after the component mounts
     useEffect(() => {
         const selects = document.querySelectorAll('select');
         M.FormSelect.init(selects);
     }, []);
-//function to handle form submission
+    //function to handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();//prevent default form submission behavior
+        // Validate form data
+        if (!formData.topic || (formData.topic === 'custom' && !formData.customTopic) || !formData.expertise || !formData.numberOfQuestions || !formData.styleOfQuestions) {
+            setResponseText("Please fill out all required fields.");
+            return;
+        }
         console.log('Form submitted:', formData);
 
-        setLoading(true); 
+        setLoading(true);
         try {
             //get the API key from .env 
             const apiKey = import.meta.env.VITE_API_KEY;
-//check if API key is missing
+            //check if API key is missing
             if (!apiKey) {
                 console.error("API key is not defined");
                 setResponseText("API key is missing. Please configure your environment.");
                 return;
             }
 
-    //Intialize Googles Generative AI with the API key
+            //Intialize Googles Generative AI with the API key
             const genAI = new GoogleGenerativeAI(apiKey);
             const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
@@ -60,11 +66,11 @@ const TopicSelect = () => {
             A2: [Answer]
             ...`;
 
-           //generate content using the model
+            //generate content using the model
             const result = await model.generateContent(prompt);
             const response = result.response.text();
 
-           //parse the response to take questions and answers
+            //parse the response to take questions and answers
             const questionsAndAnswers = response.split('\n').filter(q => q.trim() !== '');
             const questions = [];
             const answers = [];
@@ -79,7 +85,7 @@ const TopicSelect = () => {
                 }
             });
 
-           //navigate to the quiz pg with the generated questions and answers
+            //navigate to the quiz pg with the generated questions and answers
             navigate('/quiz-page', { state: { questions, answers, numberOfQuestions: formData.numberOfQuestions } });
         } catch (error) {
             //handle errors 
@@ -90,7 +96,7 @@ const TopicSelect = () => {
             setLoading(false);
         }
     };
-//function to handle form input changes
+    //function to handle form input changes
     const handleChange = (e) => {
         setFormData({
             ...formData,
@@ -134,39 +140,39 @@ const TopicSelect = () => {
                             >
                                 <option value="" disabled></option>
 
-                               {/*Example topics*/}
-                               {exampleTopics.map((topic, index) => (
-                                <option key={index} value={topic}>{topic}</option>
-                               ))}
+                                {/*Example topics*/}
+                                {exampleTopics.map((topic, index) => (
+                                    <option key={index} value={topic}>{topic}</option>
+                                ))}
 
-                               {/*custom topic option*/}
-                               <option value="custom"> + Add custom Topic</option>
-                               </select>
+                                {/*custom topic option*/}
+                                <option value="custom"> + Add custom Topic</option>
+                            </select>
                             <label>Topic</label>
-                            </div>
+                        </div>
 
-                            {/* custom topic input field only visible when "custom" is choosen*/}
-                            {formData.topic === 'custom' && (
-                                <div style={{
-                                    display: 'flex',
-                                    gap: '10px',
-                                    marginTop: '-10px',
-                                }}>
-                    
-                
-                        <div className="input-field" style={{ flex:1 }}>
-                            <input 
-                            type="text"
-                            name="customTopic"
-                            value={formData.customTopic}
-                            onChange={handleChange}
-                            placeholder="Enter your topic"
-                            required
-                            />
+                        {/* custom topic input field only visible when "custom" is choosen*/}
+                        {formData.topic === 'custom' && (
+                            <div style={{
+                                display: 'flex',
+                                gap: '10px',
+                                marginTop: '-10px',
+                            }}>
+
+
+                                <div className="input-field" style={{ flex: 1 }}>
+                                    <input
+                                        type="text"
+                                        name="customTopic"
+                                        value={formData.customTopic}
+                                        onChange={handleChange}
+                                        placeholder="Enter your topic"
+                                        required
+                                    />
+                                </div>
                             </div>
-                            </div>
-                            )}
-                              {/* Expertise level selection dropdown */}
+                        )}
+                        {/* Expertise level selection dropdown */}
                         <div className="input-field">
                             <select
                                 name="expertise"
@@ -188,7 +194,7 @@ const TopicSelect = () => {
                                 value={formData.numberOfQuestions}
                                 onChange={handleChange}
                             >
-                              <option value="" disabled></option>
+                                <option value="" disabled></option>
                                 <option value="5">5</option>
                                 <option value="10">10</option>
                                 <option value="15">15</option>
@@ -204,7 +210,7 @@ const TopicSelect = () => {
                                 value={formData.styleOfQuestions}
                                 onChange={handleChange}
                             >
-                              <option value="" disabled></option>
+                                <option value="" disabled></option>
                                 <option value="normal">Normal</option>
                                 <option value="multiple-choice">Multiple Choice</option>
                                 <option value="true-false">True/False</option>
@@ -236,10 +242,4 @@ const TopicSelect = () => {
 };
 
 export default TopicSelect;
-
-
-
-
-
-
 
