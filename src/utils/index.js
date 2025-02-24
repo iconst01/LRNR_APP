@@ -1,3 +1,5 @@
+import levelBadge from '../assets/level-badge.png';
+
 export const users = [];
 
 /* Features for the user
@@ -14,6 +16,12 @@ export class User {
     this.username = username;
     this.password = password;
     this.level = 0;
+    this.xp = 0;
+    this.jsXp = 0;
+    this.golangXp = 0;
+    this.awsXp = 0;
+    this.otherXp = 0;
+    this.lifetimeXP = 0;
     this.streak = 0;
     this.badges = [];
   }

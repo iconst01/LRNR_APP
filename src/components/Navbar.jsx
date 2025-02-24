@@ -12,6 +12,9 @@ export default function Navbar() {
           lrnr
         </Link>
         <ul id="nav-mobile" className="right" style={{ marginRight: "2rem" }}>
+        <li>
+            <Link to="/login">Login</Link>
+          </li>
           <li>
             <Link to="/account">Account</Link>
           </li>

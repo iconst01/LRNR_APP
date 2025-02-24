@@ -1,4 +1,4 @@
-import BadgeList from "./BadgeList";
+import UserBadgeList from "./UserBadgeList";
 import BasicCard from "./BasicCard";
 
 export default function MainDashboardSection({ badges = true, quizzes, questions, answers }) {
@@ -6,7 +6,7 @@ export default function MainDashboardSection({ badges = true, quizzes, questions
         <div className="mainDashboardWrapper">
             {badges ? (
                 <div>
-                    <BadgeList/>
+                    <UserBadgeList/>
                     <div>
                         <p className="badgesListTitle">Mastery Badges</p>
                         <p>These are a collection of all the badges you have obtained.</p>

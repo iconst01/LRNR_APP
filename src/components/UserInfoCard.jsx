@@ -1,7 +1,12 @@
 import AvatarPic from "./AvatarPic"
 import BadgeIcon from "./BadgeIcon"
 
-export default function UserInfoCard({ name, username, bio, xp, badges }) {
+import { useContext } from "react"
+import { UserContext } from "../context/UserProvider";
+
+export default function UserInfoCard() {
+    const { user } = useContext(UserContext);
+    
     return (
         <>   
         <hr style={{margin: '0'}}/>
@@ -11,7 +16,7 @@ export default function UserInfoCard({ name, username, bio, xp, badges }) {
                     <AvatarPic/>
                     <div>
                         <div className="usernameWrapper">
-                        <p>vicyonjou</p>
+                        <p>{user.username}</p>
                         <div>
                             <a href="#">Pick a username </a>
                             <a href="#"> Add your bio</a>
@@ -24,7 +29,7 @@ export default function UserInfoCard({ name, username, bio, xp, badges }) {
                     <button>Edit Profile</button> 
 
                     <div className="xpInfoWrapper">
-                        <div className="xp">59,695</div>
+                        <div className="xp">{user.lifetimeXP }</div>
                         <div className="badgesList"> 
                            0 <BadgeIcon/>  
                             0<BadgeIcon/> 

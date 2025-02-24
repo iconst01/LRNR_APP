@@ -1,12 +1,17 @@
+import { useContext } from "react"
+import { UserContext } from "../context/UserProvider";
 
-export default function ExperienceBar({ xp=5 }) {
+
+export default function ExperienceBar() {
+    const { user } = useContext(UserContext);
+
     return (
         <div className="progressBarContainer">
             <div className="progressBar">
-            <div className="progressBarFill" style={{ width: `${xp}%` }}></div>
+            <div className="progressBarFill" style={{ width: `${user.xp}%` }}></div>
         </div>
 
-        <span>{xp}%</span>
+        <span>{user.xp}%</span>
         </div>
         
     )
