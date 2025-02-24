@@ -98,11 +98,13 @@ const Signup = () => {
             <label htmlFor="password">Password</label>
           </div>
         </div>
-        <div className="row">
-          <input type="submit" value="Create Account" />
-        </div>
-        <div className="row">
-          <Link to="/login">Login</Link>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <div className="row">
+            <input type="submit" value="Create Account" />
+          </div>
+          <div className="row">
+            <Link to="/login">Login</Link>
+          </div>
         </div>
       </form>
     </div>
