@@ -53,7 +53,7 @@ const Account = () => {
       <div className="titleAcc section teal-text text-darken-5">
         <h1>Account</h1>
         {/* This is an example of how the data from the user should be utilized */}
-        <p>{user?.name}</p>
+        <p style={{fontSize: "1.2rem"}}>{user?.name}</p>
       </div>
       <div className="container section">
         <ResponsiveDiv
@@ -110,9 +110,10 @@ const Account = () => {
           </div>
         </ResponsiveDiv>
         <div>
-          <button onClick={handleLogout}>logout</button>
+         
         </div>
       </div>
+      <button onClick={handleLogout} className="logoutBtn waves-effect waves-light teal darken-1 btn">logout</button>
     </div>
   );
 };

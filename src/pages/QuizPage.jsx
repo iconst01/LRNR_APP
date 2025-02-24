@@ -1,6 +1,7 @@
 // Import necessary hooks, components, and libraries
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { SyncLoader } from "react-spinners";
 import "../styles/QuizPage.css";
 import "materialize-css/dist/css/materialize.min.css";
 import "materialize-css/dist/js/materialize.min.js";
@@ -29,7 +30,9 @@ const QuizPage = () => {
     // State to track all user answers
     const [userAnswers, setUserAnswers] = useState([]); 
     // State to track the number of correct answers
-    const [correctCount, setCorrectCount] = useState(0); 
+    const [correctCount, setCorrectCount] = useState(0);
+    // State to track loading state
+    const [isLoading, setIsLoading] = useState(false); 
     // useNavigate hook to programmatically navigate to different routes
     const navigate = useNavigate();
 
@@ -49,46 +52,49 @@ const QuizPage = () => {
             return; 
         }
 
+        setIsLoading(true); // Set loading state to true
         // Get the correct answer for the current question
         const correctAnswer = answers[currentQuestion];
         // Check if the user's answer matches the correct answer (case-insensitive)
         const isCorrect = answer.trim().toLowerCase() === correctAnswer.toLowerCase();
 
         // If the answer is correct
-        if (isCorrect) {
-            setCorrectCount(prev => prev + 1); // Increment the correct count
-            setEvaluationText("Correct! Well done!"); // Set evaluation text for correct answer
-        } else {
-            // If the answer is incorrect, generate detailed feedback using Google's Generative AI
-            try {
-                const apiKey = import.meta.env.VITE_API_KEY; // Get API key from environment variables
+        try {
+            if (isCorrect) {
+                setCorrectCount(prev => prev + 1);
+                setEvaluationText("Correct! Well done!");
+            } else {
+                const apiKey = import.meta.env.VITE_API_KEY;
                 if (!apiKey) {
                     console.error("API key is not defined");
                     setEvaluationText("Error: API key is missing.");
                     return;
                 }
 
-                // Initialize Google's Generative AI with the API key
                 const genAI = new GoogleGenerativeAI(apiKey);
-                const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" }); // Use the Gemini model
+                const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-                // Create a prompt to generate feedback for the incorrect answer
                 const prompt = `The question is: "${questions[currentQuestion]}". The correct answer is: "${correctAnswer}". The user answered: "${answer}". Explain why the user's answer is incorrect and provide the correct reasoning.`;
 
-                // Generate content using the model
                 const result = await model.generateContent(prompt);
-                const evaluation = result.response.text(); // Get the generated feedback
-                setEvaluationText(`Incorrect!\n\n${evaluation}`); // Set evaluation text for incorrect answer
-            } catch (error) {
-                console.error("Error generating evaluation:", error);
-                setEvaluationText("Sorry, something went wrong while generating the evaluation. Please try again.");
+                const evaluation = result.response.text();
+                setEvaluationText(`Incorrect!\n\n${evaluation}`);
             }
-        }
 
-        // Update userAnswers state with the current question's data
-        setUserAnswers(prev => [...prev, { question: questions[currentQuestion], userAnswer: answer, correctAnswer, isCorrect }]);
-        setShowEvaluation(true); // Show the evaluation section
-        setError(""); // Clear any previous error
+            setUserAnswers(prev => [...prev, { 
+                question: questions[currentQuestion], 
+                userAnswer: answer, 
+                correctAnswer, 
+                isCorrect 
+            }]);
+            setShowEvaluation(true);
+            setError("");
+        } catch (error) {
+            console.error("Error generating evaluation:", error);
+            setEvaluationText("Sorry, something went wrong while generating the evaluation. Please try again.");
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     // Function to handle moving to the next question or navigating to results
@@ -118,23 +124,35 @@ const QuizPage = () => {
             {/* Input field for the user's answer */}
             <AnswerInput answer={answer} setAnswer={setAnswer} error={error} />
 
-            {/* Show the submit button if evaluation is not visible */}
-            {!showEvaluation && (
+            {isLoading ? (
+                <div className="section center-align" style={{ minHeight: '150px', marginTop: '20px' }}>
+                    <SyncLoader color="#26a69a" size={20} margin={10} style={{  marginTop: '200px' }}/>
+                    <p className="teal-text" style={{  marginTop: '20px' }}>
+                        Evaluating your answer...
+                    </p>
+                    <p className="grey-text text-darken-1" style={{ 
+                        marginTop: '10px', 
+                        fontSize: '0.9em' 
+                    }}>
+                        Please wait while we analyze your response
+                    </p>
+                </div>
+            ) : !showEvaluation ? (
                 <div className="section">
-                    <button className="waves-effect waves-light teal darken-1 btn-large" onClick={handleSubmit}>
+                    <button 
+                        className="waves-effect waves-light teal darken-1 btn-large" 
+                        onClick={handleSubmit}
+                        disabled={isLoading}
+                    >
                         SUBMIT ANSWER
                     </button>
                 </div>
-            )}
-
-            {/* Show the evaluation section if evaluation is visible */}
-            {showEvaluation && (
+            ) : (
                 <EvaluationSection
-                    answer={answer}
                     correctAnswer={correctAnswer}
-                    evaluation={evaluationText} 
+                    evaluation={evaluationText}
                     handleNext={handleNext}
-                    isLastQuestion={currentQuestion === numberOfQuestions - 1} // Check if it's the last question
+                    isLastQuestion={currentQuestion === numberOfQuestions - 1}
                 />
             )}
         </div>
