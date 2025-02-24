@@ -1,108 +1,145 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+// Import necessary hooks, components, and libraries
+import { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import "../styles/QuizPage.css";
-import QuestionContainer from "../components/QuestionContainer";
-import AnswerInput from "../components/AnswerInput";
-import QuestionNumber from "../components/QuestionNumber";
-import EvaluationSection from "../components/EvaluationSection";
 import "materialize-css/dist/css/materialize.min.css";
 import "materialize-css/dist/js/materialize.min.js";
+import { GoogleGenerativeAI } from "@google/generative-ai"; // Import Google's Generative AI library
+import QuestionNumber from "../components/QuestionNumber"; // Component to display question number
+import QuestionContainer from "../components/QuestionContainer"; // Component to display the question
+import AnswerInput from "../components/AnswerInput"; // Component for user input
+import EvaluationSection from "../components/EvaluationSection"; // Component to display evaluation results
 
-const quizData = [
-    {
-        question: "Can you explain what JavaScript is and how it is used to add interactivity to websites?",
-        correctAnswer: "JavaScript is a programming language used to add interactivity to websites by handling events, manipulating HTML & CSS, and modifying the DOM.",
-        evaluation: "Incorrect. The answer only mentions one aspect of JavaScript - accessing the DOM. A complete answer should mention its ability to handle events, manipulate HTML and CSS, and perform various other functions.",
-    },
-    {
-        question: "What is the difference between 'let', 'const', and 'var' in JavaScript?",
-        correctAnswer: "let and const are block-scoped, while var is function-scoped. const cannot be reassigned, whereas let can.",
-        evaluation: "Correct! 'let' and 'const' are block-scoped, but 'const' cannot be reassigned. 'var' is function-scoped and can be redeclared.",
-    },
-    {
-        question: "What is the purpose of React's useState hook?",
-        correctAnswer: "useState is a React hook that allows functional components to have state and update it dynamically.",
-        evaluation: "Incorrect. The correct answer is that useState allows functional components to have state and update it dynamically.",
-    },
-    {
-        question: "What is the Virtual DOM in React, and why is it important?",
-        correctAnswer: "The Virtual DOM is a lightweight copy of the actual DOM that React uses to optimize UI rendering and improve performance.",
-        evaluation: "Incorrect. The Virtual DOM is an optimized representation of the real DOM, used by React to reduce unnecessary re-renders and improve performance.",
-    },
-    {
-        question: "What is an API, and how is it used in web development?",
-        correctAnswer: "An API (Application Programming Interface) allows applications to communicate and exchange data with external services.",
-        evaluation: "Incorrect. An API enables different applications to interact with each other by sending and receiving data, often through HTTP requests.",
-    }
-];
-
-function QuizPage() {
+// Define the QuizPage component
+const QuizPage = () => {
+    // useLocation hook to access state passed from the previous component
+    const location = useLocation();  
+    // Destructure state to get questions, answers, and numberOfQuestions
+    const { questions, answers, numberOfQuestions } = location.state || {}; 
+    // State to store the user's current answer
     const [answer, setAnswer] = useState("");
+    // State to track the current question index
     const [currentQuestion, setCurrentQuestion] = useState(0);
+    // State to toggle evaluation section visibility
     const [showEvaluation, setShowEvaluation] = useState(false);
-    const [error, setError] = useState("");
+    // State to store error messages
+    const [error, setError] = useState(""); 
+    // State to store evaluation text (correct/incorrect feedback)
+    const [evaluationText, setEvaluationText] = useState(""); 
+    // State to track all user answers
+    const [userAnswers, setUserAnswers] = useState([]); 
+    // State to track the number of correct answers
+    const [correctCount, setCorrectCount] = useState(0); 
+    // useNavigate hook to programmatically navigate to different routes
     const navigate = useNavigate();
 
-    const handleSubmit = () => {
-        const trimmedAnswer = answer.trim();
+    // useEffect to validate questions and answers data
+    useEffect(() => {
+        // If questions or answers are missing or empty, redirect to the quiz generation page
+        if (!questions || questions.length === 0 || !answers || answers.length === 0) {
+            navigate("/quiz-gen"); 
+        }
+    }, [questions, answers, navigate]);
 
-        if (!trimmedAnswer) {
-            setError("Please enter an answer before submitting.");
-            return;
+    // Function to handle answer submission
+    const handleSubmit = async () => {
+        // Validate if the answer is empty
+        if (!answer.trim()) {
+            setError("Please enter an answer.");
+            return; 
         }
 
-        if (trimmedAnswer.length < 3) {
-            setError("Answer must be at least 3 characters long.");
-            return;
-        }
+        // Get the correct answer for the current question
+        const correctAnswer = answers[currentQuestion];
+        // Check if the user's answer matches the correct answer (case-insensitive)
+        const isCorrect = answer.trim().toLowerCase() === correctAnswer.toLowerCase();
 
-        if (trimmedAnswer.length > 300) {
-            setError("Answer must not exceed 300 characters.");
-            return;
-        }
-        else{
-            setError(""); 
-            setShowEvaluation(true);
-        }
-    };
-
-    const handleNext = () => {
-        if (currentQuestion < quizData.length - 1) {
-            setCurrentQuestion(currentQuestion + 1);
-            setAnswer(""); 
-            setShowEvaluation(false);
-            setError("");
+        // If the answer is correct
+        if (isCorrect) {
+            setCorrectCount(prev => prev + 1); // Increment the correct count
+            setEvaluationText("Correct! Well done!"); // Set evaluation text for correct answer
         } else {
-            navigate("/results");
+            // If the answer is incorrect, generate detailed feedback using Google's Generative AI
+            try {
+                const apiKey = import.meta.env.VITE_API_KEY; // Get API key from environment variables
+                if (!apiKey) {
+                    console.error("API key is not defined");
+                    setEvaluationText("Error: API key is missing.");
+                    return;
+                }
+
+                // Initialize Google's Generative AI with the API key
+                const genAI = new GoogleGenerativeAI(apiKey);
+                const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" }); // Use the Gemini model
+
+                // Create a prompt to generate feedback for the incorrect answer
+                const prompt = `The question is: "${questions[currentQuestion]}". The correct answer is: "${correctAnswer}". The user answered: "${answer}". Explain why the user's answer is incorrect and provide the correct reasoning.`;
+
+                // Generate content using the model
+                const result = await model.generateContent(prompt);
+                const evaluation = result.response.text(); // Get the generated feedback
+                setEvaluationText(`Incorrect!\n\n${evaluation}`); // Set evaluation text for incorrect answer
+            } catch (error) {
+                console.error("Error generating evaluation:", error);
+                setEvaluationText("Sorry, something went wrong while generating the evaluation. Please try again.");
+            }
+        }
+
+        // Update userAnswers state with the current question's data
+        setUserAnswers(prev => [...prev, { question: questions[currentQuestion], userAnswer: answer, correctAnswer, isCorrect }]);
+        setShowEvaluation(true); // Show the evaluation section
+        setError(""); // Clear any previous error
+    };
+
+    // Function to handle moving to the next question or navigating to results
+    const handleNext = () => {
+        // If there are more questions, move to the next question
+        if (currentQuestion < numberOfQuestions - 1) {
+            setCurrentQuestion(currentQuestion + 1);
+            setAnswer(""); // Clear the answer input
+            setShowEvaluation(false); // Hide the evaluation section
+            setEvaluationText(""); // Clear the evaluation text
+        } else {
+            // If it's the last question, navigate to the results page with userAnswers and correctCount
+            navigate("/results", { state: { userAnswers, correctCount, totalQuestions: numberOfQuestions } });
         }
     };
+
+    // Get the current question and correct answer
+    const currentQuestionData = questions[currentQuestion];
+    const correctAnswer = answers[currentQuestion];
 
     return (
         <div className="mainContainer">
-            <QuestionNumber current={currentQuestion} total={quizData.length} />
-            <QuestionContainer question={quizData[currentQuestion].question} />
+            {/* Display the current question number */}
+            <QuestionNumber current={currentQuestion} total={numberOfQuestions} />
+            {/* Display the current question */}
+            <QuestionContainer question={currentQuestionData} />
+            {/* Input field for the user's answer */}
             <AnswerInput answer={answer} setAnswer={setAnswer} error={error} />
-            
-            {!showEvaluation ? (
+
+            {/* Show the submit button if evaluation is not visible */}
+            {!showEvaluation && (
                 <div className="section">
                     <button className="waves-effect waves-light teal darken-1 btn-large" onClick={handleSubmit}>
                         SUBMIT ANSWER
                     </button>
                 </div>
-            ) : (
-                <EvaluationSection 
-                    answer={answer} 
-                    correctAnswer={quizData[currentQuestion].correctAnswer} 
-                    evaluation={quizData[currentQuestion].evaluation} 
-                    handleNext={handleNext} 
-                    isLastQuestion={currentQuestion === quizData.length - 1} 
+            )}
+
+            {/* Show the evaluation section if evaluation is visible */}
+            {showEvaluation && (
+                <EvaluationSection
+                    answer={answer}
+                    correctAnswer={correctAnswer}
+                    evaluation={evaluationText} 
+                    handleNext={handleNext}
+                    isLastQuestion={currentQuestion === numberOfQuestions - 1} // Check if it's the last question
                 />
             )}
         </div>
     );
-}
+};
 
+// Export the QuizPage component as the default export
 export default QuizPage;
-
-
-
