@@ -6,7 +6,9 @@ const EvaluationSection = ({correctAnswer, evaluation, handleNext, isLastQuestio
             <div className="evalContent">
                 {/* Left Side - Correct/Incorrect */}
                 <div className="evalLeft">
+
                     <h6>Correct Answer: {correctAnswer}</h6>
+                 
                 </div>
 
                 {/* Right Side - Explanation */}

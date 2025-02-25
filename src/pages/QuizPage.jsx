@@ -44,19 +44,56 @@ const QuizPage = () => {
         }
     }, [questions, answers, navigate]);
 
+     // remove punctuation, extra spaces, and converting to lowercase
+     const normalizeAnswer = (answer) => {
+        return answer
+            .toLowerCase() // Convert to lowercase
+            .replace(/[^\w\s,]/g, '') // Remove punctuation except commas
+            .replace(/\s+/g, ' ') // Replace multiple spaces with a single space
+            .trim(); // Trim leading and trailing spaces
+    };
+
+    // Extract keywords from the answer
+    const extractKeywords = (answer) => {
+        return answer
+            .split(/[ ,]+/) // Split by spaces or commas
+            .filter(word => word.length > 0); // Remove empty strings
+    };
+
+    // Check if the user's answer contains the correct keywords
+    const isAnswerCorrect = (userAnswer, correctAnswer) => {
+        const normalizedUserAnswer = normalizeAnswer(userAnswer);
+        const normalizedCorrectAnswer = normalizeAnswer(correctAnswer);
+
+        const userKeywords = extractKeywords(normalizedUserAnswer);
+        const correctKeywords = extractKeywords(normalizedCorrectAnswer);
+          // Calculate the number of matched keywords
+    const matchedKeywords = userKeywords.filter(keyword =>
+        correctKeywords.includes(keyword)
+    );
+   // Check if at least 80% of the correct keywords are present in the user's answer
+   const accuracy = matchedKeywords.length / correctKeywords.length;
+
+   // Allow an answer to be correct if at least 80% of the correct keywords are matched
+   return accuracy >= 0.8;
+    };
+
+
     // Function to handle answer submission
     const handleSubmit = async () => {
-        // Validate if the answer is empty
         if (!answer.trim()) {
             setError("Please enter an answer.");
             return; 
         }
 
-        setIsLoading(true); // Set loading state to true
-        // Get the correct answer for the current question
-        const correctAnswer = answers[currentQuestion];
-        // Check if the user's answer matches the correct answer (case-insensitive)
-        const isCorrect = answer.trim().toLowerCase() === correctAnswer.toLowerCase();
+        setIsLoading(true);
+        const correctAnswer = answers[currentQuestion]; 
+        const normalizedUserAnswer = normalizeAnswer(answer); // Normalize user's answer
+        const normalizedCorrectAnswer = normalizeAnswer(correctAnswer); // Normalize correct answer
+
+        const isCorrect = isAnswerCorrect(answer, correctAnswer);
+
+
 
         // If the answer is correct
         try {
@@ -74,11 +111,11 @@ const QuizPage = () => {
                 const genAI = new GoogleGenerativeAI(apiKey);
                 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-                const prompt = `The question is: "${questions[currentQuestion]}". The correct answer is: "${correctAnswer}". The user answered: "${answer}". Explain why the user's answer is incorrect and provide the correct reasoning.`;
+                const prompt = `The question is: "${questions[currentQuestion]}". The correct answer is: "${correctAnswer}". You answered: "${answer}". Explain why the  answer is incorrect and provide the correct reasoning.`;
 
                 const result = await model.generateContent(prompt);
                 const evaluation = result.response.text();
-                setEvaluationText(`Incorrect!\n\n${evaluation}`);
+                setEvaluationText(`\n\n${evaluation}`);
             }
 
             setUserAnswers(prev => [...prev, { 

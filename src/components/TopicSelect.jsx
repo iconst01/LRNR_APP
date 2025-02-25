@@ -53,12 +53,41 @@ const TopicSelect = () => {
             //use customTopic id the topic is set to 'custom',otherwise use the selected topic
             const selectedTopic = formData.topic === 'custom' ? formData.customTopic : formData.topic;
 
-            const prompt = `Generate ${formData.numberOfQuestions} ${formData.styleOfQuestions} questions for a ${formData.expertise} level in the topic of ${selectedTopic}. For each question, provide the correct answer. Format the response as follows:
-            Q1: [Question]
-            A1: [Answer]
-            Q2: [Question]
-            A2: [Answer]
-            ...`;
+
+const timestamp = new Date().getTime();
+            const randomFactor = Math.random();
+            const seed = Math.random().toString(36).substr(2, 9); // Unique session identifier
+    
+            // Modify the prompt with additional random elements to ensure different results each time
+            const prompt = `
+                Session ID: ${seed}
+                Timestamp: ${timestamp}
+                Random Factor: ${randomFactor}
+
+    **Instruction for AI:** 
+    Generate ${formData.numberOfQuestions} **entirely new** and **unique**${formData.styleOfQuestions}for a ${formData.expertise} level in the topic of ${selectedTopic}.
+   The goal is to ensure that each question is fresh and has **never been seen before**.
+    Avoid generating any repeated questions from previous quizzes, even if the same topic is chosen.
+
+    Style the questions as if they are spoken by **${formData.styleOfQuestions}**. Ensure the language, tone, and phrasing match the chosen style.
+
+     **Important:** The questions should be **completely new** and **different every time** this request is made. Do not reuse any previous questions. 
+
+    **Format:** 
+    - Each question should be phrased uniquely while staying on topic.
+    - Avoid repeating question structures.
+    - Make sure answers are varied and creative.
+
+    **Example (if style is "Jedi")**:
+    Q1: "The Force surrounds us, binds us. But tell me, young Padawan, which fundamental force in physics governs the attraction between two masses?"
+    A1: "Gravity, Master Yoda."
+
+    **Different version for next request:** 
+    Q1: "A Jedi feels the pull of the Force, just as objects feel the pull of what force in physics?"
+    A1: "Gravity."
+
+    Ensure **creativity, accuracy, and uniqueness** in each response.
+`;
 
            //generate content using the model
             const result = await model.generateContent(prompt);
@@ -205,10 +234,14 @@ const TopicSelect = () => {
                                 onChange={handleChange}
                             >
                               <option value="" disabled></option>
-                                <option value="normal">Normal</option>
-                                <option value="multiple-choice">Multiple Choice</option>
-                                <option value="true-false">True/False</option>
-                                <option value="open-ended">Open Ended</option>
+                              <option value="master oogway">Master Oogway</option>
+<option value="1940's gangster">1940's Gangster</option>
+<option value="like I'm an 8 year old">Like I'm an 8 Year Old</option>
+<option value="jedi">Jedi</option>
+<option value="captain jack sparrow">Captain Jack Sparrow</option>
+<option value="matthew mcconaughey">Matthew McConaughey</option>
+<option value="normal">Normal</option>
+
                             </select>
                             <label>Style of questions</label>
                         </div>
