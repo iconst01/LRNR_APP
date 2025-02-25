@@ -6,6 +6,7 @@ import UserInfoCard from "../components/UserInfoCard";
 import UserLevelCard from "../components/UserLevelCard";
 import AccountDashboard from "../components/AccountDashboard";
 
+
 import "../styles/Account.css";
 import styled from "styled-components";
 import "materialize-css/dist/css/materialize.min.css";
@@ -42,7 +43,6 @@ const Account = () => {
       return;
     }
   }, []);
-
 
 
   return (

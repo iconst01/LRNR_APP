@@ -36,6 +36,7 @@ export default function Navbar() {
           {/* on desktop the hamburger is hidden */}
           <ul id="nav-mobile" className="right hide-on-med-and-down" style={{ marginRight: "2rem" }}>
            
+            {/* hides login if you are logged in */}
            {!user?.name && <li><Link to="/login">Login</Link></li>} 
 
             {/* hides account if you are not logged in */}
