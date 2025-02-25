@@ -4,6 +4,8 @@ import BadgeIcon from "./BadgeIcon"
 import { useContext } from "react"
 import { UserContext } from "../context/UserProvider";
 
+import LogoutButton from "./LogoutButton";
+
 export default function UserInfoCard() {
     const { user } = useContext(UserContext);
     
@@ -26,7 +28,8 @@ export default function UserInfoCard() {
                 </div>
 
                 <div className="statsWrapper">
-                    <button>Edit Profile</button> 
+                    {/* <button>Edit Profile</button>  */}
+                    <LogoutButton/>
 
                     <div className="xpInfoWrapper">
                         <div className="xp">{user.lifetimeXP }</div>

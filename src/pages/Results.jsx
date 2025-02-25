@@ -44,7 +44,7 @@ const ResultsPage = () => {
                     <h6>Detailed Results:</h6>
                     <ul>
                         {/* Map through userAnswers to display each question's details */}
-                        {userAnswers.map((result, index) => (
+                        {userAnswers && userAnswers.map((result, index) => (
                             <li key={index}>
                                 <strong>Question {index + 1}:</strong> {result.question}<br />
                                 <strong>Your Answer:</strong> {result.userAnswer}<br />

@@ -63,14 +63,14 @@ export const badges = {
 };
 
 const XP_THRESHOLDS = {
-    BEGINNER: 50,
+    BEGINNER: 30,
     INTERMEDIATE: 100,
     ADVANCED: 140,
     EXPERT: 150,
 };
 
 function assignBadges(currentUser) {
-    const highestBadges = {}; // object to store the highest badge per category
+    const highestBadges = {}; // Object to store the highest badge per category
 
     for (const difficulty in XP_THRESHOLDS) {     
         const threshold = XP_THRESHOLDS[difficulty];
@@ -78,8 +78,8 @@ function assignBadges(currentUser) {
         // Science badge assignment
         if (currentUser.scienceXp >= threshold) {
             highestBadges.science = { 
-                badge: badges[difficulty],         //will be an img path i.e., /src/assets/goldBadge.png
-                title: allBadgesText.science[Object.keys(XP_THRESHOLDS).indexOf(difficulty)]   //will end up as i.e. allBadgesText.science[3]
+                badge: badges[difficulty],         
+                title: allBadgesText.science[Object.keys(XP_THRESHOLDS).indexOf(difficulty)]   
             };
         }
 
@@ -99,31 +99,62 @@ function assignBadges(currentUser) {
              };
         }
 
-        if (currentUser.customXp >= threshold) {
-            const customTopic = currentUser.customTopic;
-        
-            // Find the correct badge title based on the customTopic and the XP threshold
-            const customBadgeTitle = allBadgesText.custom[Object.keys(XP_THRESHOLDS).indexOf(difficulty)];
-        
-            highestBadges.custom = { 
-                badge: badges[difficulty], 
-                title: `${customBadgeTitle} ${customTopic}` // Append the topic to the badge title
-            };
+        // Custom topics badge assignment
+        if (currentUser.customTopics?.length > 0) {
+            currentUser.customTopics.forEach(topic => {
+                const topicXp = currentUser[`${topic}Xp`] || 0;
+                if (topicXp >= threshold) {
+                    const customBadgeTitle = allBadgesText.custom[Object.keys(XP_THRESHOLDS).indexOf(difficulty)];
+                    highestBadges[topic] = { 
+                        badge: badges[difficulty], 
+                        title: `${topic} ${customBadgeTitle}` 
+                    };
+                }
+            });
         }
     }
 
-    // replace the user's badges with only the highest-ranked ones per topic
+    // Update user's badges with the highest-ranked ones per category
     currentUser.badges = Object.values(highestBadges);
 }
 
 export function updateCustomTopicsAndBadges(currentUser) {
-    if(currentUser.customTopic) {
-        if(!currentUser.customTopics.includes(currentUser.customTopic))
-            currentUser.customTopics.push(currentUser.customTopic);
-            const newProperty = `${currentUser.customTopic.at(-1)}Xp`
-            currentUser[newProperty] = 0;
+    if (!currentUser.customTopics) {
+        currentUser.customTopics = [];
+    }
+
+    if (currentUser.customTopic && !currentUser.customTopics.includes(currentUser.customTopic)) {
+        currentUser.customTopics.push(currentUser.customTopic);
+        const newProperty = `${currentUser.customTopic}Xp`;
+        if (!(newProperty in currentUser)) {
+            currentUser[newProperty] = 0; // Initialize XP for the new topic
+        }
     }
 }
+
+export function updateXP(currentUser, xpGained, typeOfXp) {
+    currentUser.xp += xpGained;
+    currentUser.lifetimeXP += xpGained;
+
+    if (typeOfXp === 'Math') {
+        currentUser.mathXp += xpGained;
+    } else if (typeOfXp === 'Science') {
+        currentUser.scienceXp += xpGained;
+    } else if (typeOfXp === 'History') {
+        currentUser.historyXp += xpGained;
+    } else {
+        // Ensure XP is tracked per custom topic
+        if (!currentUser.customTopics.includes(typeOfXp)) {
+            currentUser.customTopics.push(typeOfXp);
+        }
+        const xpKey = `${typeOfXp}Xp`;
+        currentUser[xpKey] = (currentUser[xpKey] || 0) + xpGained;
+    }
+    
+    assignBadges(currentUser);
+    updateLevel(currentUser);
+}
+
 
 function updateLevel(currentUser) {
     // once the user has gotten 100 xp
@@ -141,26 +172,3 @@ export function updateStreak(currentUser, isCorrect = true) {
     }
 }
 
-export function updateXP(currentUser, xpGained, typeOfXp) {
-    currentUser.xp += xpGained;
-    currentUser.lifetimeXP += xpGained;
-
-    // switch statement to add xp to a specific topic
-    switch (typeOfXp) {
-        case 'Math':
-            currentUser.mathXp += xpGained;
-            break;
-        case 'Science':
-            currentUser.scienceXp += xpGained;
-            break;
-        case 'History':
-            currentUser.historyXp += xpGained;
-            break;
-        default:
-            currentUser.customXp += xpGained;
-            break;
-    }
-    
-    assignBadges(currentUser);
-    updateLevel(currentUser);
-}

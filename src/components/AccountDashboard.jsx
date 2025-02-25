@@ -32,8 +32,6 @@ export default function AccountDashboard() {
                             <p onClick={handleDashboardClick}>Badges</p>
                             <h7>PLATINUM QUIZZES</h7>
                             <p onClick={handleDashboardClick}>Your Quizzes</p>
-                            <p onClick={handleDashboardClick}>Your Questions</p>
-                            <p onClick={handleDashboardClick}>Your Answers</p>
                          </div>
                     </div>
                 </div>

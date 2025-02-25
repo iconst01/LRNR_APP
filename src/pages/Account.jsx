@@ -6,8 +6,6 @@ import UserInfoCard from "../components/UserInfoCard";
 import UserLevelCard from "../components/UserLevelCard";
 import AccountDashboard from "../components/AccountDashboard";
 
-import { updateXP } from "../utils/badgeSystem"
-
 import "../styles/Account.css";
 import styled from "styled-components";
 import "materialize-css/dist/css/materialize.min.css";
@@ -36,17 +34,6 @@ const Account = () => {
   // User global context
   const { user, setUser } = useContext(UserContext);
 
-  // Function to logout the user
-  const handleLogout = () => {
-    // Delete the user from the localStorage ( This simulate the user being logged in )
-    localStorage.removeItem("user");
-
-    // Remove the user from the global context
-    setUser(null);
-
-    // Send the user to the home page
-    navigate("/");
-  };
 
   // Check if the user is login
   useEffect(() => {
@@ -124,7 +111,6 @@ const Account = () => {
         </div>
       </div> */}
       <AccountDashboard/>    
-      <button onClick={handleLogout}>logout</button>
 
     </div>
     

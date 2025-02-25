@@ -278,7 +278,7 @@
     font-weight: 600;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 800px) {
     .titleAcc {
         text-align: center;
         margin-left: 0;
@@ -288,12 +288,22 @@
         left: 0;
     }
 
-    .levelCardWrapper {
-        left: 45vw;
-    }
-
     .seperator2 {
         margin-left: 4rem;
+    }
+
+    .levelCardWrapper {
+        left: 0;
+        margin: 0 auto;
+    }
+
+    .badgeListWrapper {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        
+        * {
+            justify-self: left;
+        }
     }
 
 }

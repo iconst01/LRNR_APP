@@ -37,11 +37,7 @@ export default function MainDashboardSection({ badges = true, quizzes, questions
                 </div>
             ) : quizzes ? (
                 <h5>User Quizzes</h5>
-            ) : questions ? (
-                <h5>User Questions</h5>
-            ) : answers ? (
-                <h5>User Answers</h5>
-            ) : null}
+            ): null}
         </div>
     );
 }

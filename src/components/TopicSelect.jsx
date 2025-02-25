@@ -39,7 +39,7 @@ const TopicSelect = () => {
    useEffect(() => {
     setUser((prevUser) => ({
         ...prevUser,
-        customTopic: formData.customTopic,
+        customTopic: formData.customTopic,      
     }));
 }, [formData.customTopic]); 
 
