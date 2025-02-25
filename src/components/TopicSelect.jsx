@@ -23,7 +23,7 @@ const TopicSelect = () => {
     const navigate = useNavigate(); 
 
     //example topics it can aslo be fetched from API
-    const exampleTopics = ['Math', 'Science', 'History'];
+    const exampleTopics = ['golang', 'aws', 'javascript','CI/CD','home gardens','coffe','finger foods'];
 
 //initialize materialize select dropdowns after the component mounts
     useEffect(() => {
@@ -52,44 +52,111 @@ const TopicSelect = () => {
 
             //use customTopic id the topic is set to 'custom',otherwise use the selected topic
             const selectedTopic = formData.topic === 'custom' ? formData.customTopic : formData.topic;
+        
+            const timestamp = new Date().getTime(); // Add a timestamp for uniqueness
+const randomSeed = Math.random().toString(36).substring(7); // Add a random seed for uniqueness
+
+const prompt = `
+Generate ${formData.numberOfQuestions} entirely new and unique questions for a ${formData.expertise} level in the topic of ${selectedTopic}.
+ Style the questions as if they are spoken by **${formData.styleOfQuestions}**. Ensure the language, tone, and phrasing match the chosen style. For example:
+"Master Oogway" should sound wise and philosophical.
+"1940’s gangster" should have a tough, old-school mobster vibe.
+"Like I'm an 8-year-old" should simplify concepts and be playful.
+"Jedi" should use Star Wars-themed wisdom and phrasing.
+"Captain Jack Sparrow" should be witty and pirate-themed.
+"Matthew McConaughey" should have a laid-back, Southern drawl style.
 
 
-const timestamp = new Date().getTime();
-            const randomFactor = Math.random();
-            const seed = Math.random().toString(36).substr(2, 9); // Unique session identifier
-    
-            // Modify the prompt with additional random elements to ensure different results each time
-            const prompt = `
-                Session ID: ${seed}
-                Timestamp: ${timestamp}
-                Random Factor: ${randomFactor}
+**Important:**
+-The questions should be **completely new** and **different every time** this request ${selectedTopic} is made. Do not reuse any previous questions. 
+-If ${formData.styleOfQuestions}is normal style the question like a normal quiz.
 
-    **Instruction for AI:** 
-    Generate ${formData.numberOfQuestions} **entirely new** and **unique**${formData.styleOfQuestions}for a ${formData.expertise} level in the topic of ${selectedTopic}.
-   The goal is to ensure that each question is fresh and has **never been seen before**.
-    Avoid generating any repeated questions from previous quizzes, even if the same topic is chosen.
+**Requirements:**
+1. Ensure the questions are appropriate for the expertise level (${formData.expertise}).
+2. Provide clear and concise answers for each question.
+3. Format the output exactly as follows:
+   Q1: [Question]
+   A1: [Answer]
+   Q2: [Question]
+   A2: [Answer]
+   ... and so on.
 
-    Style the questions as if they are spoken by **${formData.styleOfQuestions}**. Ensure the language, tone, and phrasing match the chosen style.
+**Examples:**
+- Example (if style is "Jedi"):
+  Q1: "The Force surrounds us, binds us. But tell me, young Padawan, which fundamental force in physics governs the attraction between two masses?"
+  A1: "Gravity, Master Yoda."
 
-     **Important:** The questions should be **completely new** and **different every time** this request is made. Do not reuse any previous questions. 
+- Example (if style is "Normal"):
+  Q1: "What is the sum of 5 and 3?"
+  A1: "8."
 
-    **Format:** 
-    - Each question should be phrased uniquely while staying on topic.
-    - Avoid repeating question structures.
-    - Make sure answers are varied and creative.
+**Unique Identifier:**
+- Timestamp: ${timestamp}
+- Random Seed: ${randomSeed}
 
-    **Example (if style is "Jedi")**:
-    Q1: "The Force surrounds us, binds us. But tell me, young Padawan, which fundamental force in physics governs the attraction between two masses?"
-    A1: "Gravity, Master Yoda."
-
-    **Different version for next request:** 
-    Q1: "A Jedi feels the pull of the Force, just as objects feel the pull of what force in physics?"
-    A1: "Gravity."
-
-    Ensure **creativity, accuracy, and uniqueness** in each response.
+**Important:**
+- If you cannot generate entirely new questions, respond with "ERROR: Unable to generate unique questions."
+- Do not deviate from the format or instructions.
 `;
 
-           //generate content using the model
+console.log("Prompt:", prompt); // Log the prompt for debugging
+
+
+const validateForm = (formData) => {
+    const { topic, customTopic, expertise, numberOfQuestions, styleOfQuestions } = formData;
+
+    // Validate topic
+    if (!topic) {
+        alert("Please select a topic.");
+        return false;
+    }
+
+    // Validate custom topic (if selected)
+    if (topic === "custom" && (!customTopic || customTopic.trim().length < 3)) {
+        alert("Please enter a valid custom topic (at least 3 characters).");
+        return false;
+    }
+
+    // Validate expertise level
+    if (!expertise) {
+        alert("Please select an expertise level.");
+        return false;
+    }
+
+    // Validate number of questions
+    if (!numberOfQuestions || isNaN(numberOfQuestions) || numberOfQuestions < 1 || numberOfQuestions > 20) {
+        alert("Please enter a valid number of questions (between 1 and 20).");
+        return false;
+    }
+
+    // Validate style of questions
+    if (!styleOfQuestions) {
+        alert("Please select a style for the questions.");
+        return false;
+    }
+
+    return true; // Validation passed
+};
+
+// Usage in handleSubmit
+const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!validateForm(formData)) {
+        return; // Stop if validation fails
+    }
+
+    // Proceed with API call
+    setLoading(true);
+    try {
+        // API call logic
+    } catch (error) {
+        console.error("Error generating content:", error);
+    } finally {
+        setLoading(false);
+    }
+};
+
             const result = await model.generateContent(prompt);
             const response = result.response.text();
 
@@ -234,13 +301,13 @@ const timestamp = new Date().getTime();
                                 onChange={handleChange}
                             >
                               <option value="" disabled></option>
-                              <option value="master oogway">Master Oogway</option>
+                              <option value="normal">Normal</option>
 <option value="1940's gangster">1940's Gangster</option>
 <option value="like I'm an 8 year old">Like I'm an 8 Year Old</option>
 <option value="jedi">Jedi</option>
 <option value="captain jack sparrow">Captain Jack Sparrow</option>
 <option value="matthew mcconaughey">Matthew McConaughey</option>
-<option value="normal">Normal</option>
+<option value="master oogway">Master Oogway</option>
 
                             </select>
                             <label>Style of questions</label>
