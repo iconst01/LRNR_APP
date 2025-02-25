@@ -11,8 +11,8 @@ export default function UserLevelCard() {
         <div className="levelCardWrapper">
             <div className="streakCardWrapper">
                 <div className="streakCardInfo">
-                    <StreakIcon />  
-                        <p className="streakNumber">{user.streak}</p>
+                    <StreakIcon fire={user.streak || false} />  
+                        <p className="streakNumber">{user.streak || 0}</p>
                         <div className="weekStreakText">
                             <p>correct</p>
                             <p>streak</p>

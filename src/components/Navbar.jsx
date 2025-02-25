@@ -1,12 +1,23 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import M from "materialize-css"; 
 
 export default function Navbar() {
+  const location = useLocation();
+  const navigate = useNavigate();
+
   useEffect(() => {
     const elems = document.querySelectorAll(".sidenav");
     M.Sidenav.init(elems, { edge: "right" }); // Open sidebar from the right
   }, []);
+
+    // Function to decide the path dynamically
+    const stayOnCurrentPage = (e) => {
+      e.preventDefault(); // Prevent the default behavior of Link
+      const path = location.pathname === "/quiz-gen" ? "/quiz-gen" : "/quiz-gen"; // Customize the logic as needed
+      navigate(path, { replace: true });
+    };
+  
 
   return (
     <>
@@ -25,7 +36,7 @@ export default function Navbar() {
           </ul>
 
           {/* hamburger menu on right side */}
-          <Link to="#" data-target="mobile-demo" className="sidenav-trigger right" style={{ marginRight: "1rem" }}>
+          <Link to={{stayOnCurrentPage}} data-target="mobile-demo" className="sidenav-trigger right" style={{ marginRight: "1rem" }}>
             <i className="material-icons">menu</i>
           </Link>
         </div>

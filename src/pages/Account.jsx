@@ -56,24 +56,12 @@ const Account = () => {
     }
   }, []);
 
-  //everytime the User object's properties are changed update it in local storage for persistance
-  useEffect(() => {
-    localStorage.setItem("user", JSON.stringify(user));
-  }, [user])
-
-  //changes the User object
-  function handleXp(xpTopic) {
-    const updatedUser = { ...user }; 
-    updateXP(updatedUser, 10, xpTopic);
-    setUser(updatedUser);  // inside the context set the user to itself but with a new amount of xp
-  }
 
 
   return (
     <div>
       <div className="section teal-text text-darken-5">
-        <h1 className="titleAcc" onClick={() => handleXp('golang')} style={{ cursor: "pointer" }}>Account</h1>
-        <h1 onClick={() => handleXp('js')}>Test</h1>
+        <h1 className="titleAcc" style={{ cursor: "pointer" }}>Account</h1>
         <UserLevelCard/>
         <UserInfoCard/>
       </div>

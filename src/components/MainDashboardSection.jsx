@@ -1,31 +1,40 @@
 import UserBadgeList from "./UserBadgeList";
 import BasicCard from "./BasicCard";
+import { achievementInfo, getAchievementConditions } from "../utils/badgeSystem";
+
+import { useContext } from "react";
+import { UserContext } from "../context/UserProvider";
 
 export default function MainDashboardSection({ badges = true, quizzes, questions, answers }) {
+    const { user } = useContext(UserContext);
+    const achievementConditions = getAchievementConditions(user); 
+
     return (
         <div className="mainDashboardWrapper">
             {badges ? (
                 <div>
-                    <UserBadgeList/>
+                    <UserBadgeList />
                     <div>
-                        <p className="badgesListTitle">Mastery Badges</p>
-                        <p>These are a collection of all the badges you have obtained.</p>
+                        <p className="badgesListTitle">Mastery Achievements</p>
+                        <p>These are a collection of all the achievements you have received.</p>
                         <div className="basicCardWrapper">
-                           {Array.from({ length: 12 }).map((_, index) => (
-                                <BasicCard 
-                                    icon
-                                    key={index}
-                                    color="#e0e0e0" 
-                                    width={250}
-                                    height={125}
-                                    className="basicCard"
-                                    title="Just Getting Started"
-                                    text="Last achieved 3 days ago"/>
+                            {achievementInfo.map((eachAchievement, index) => (
+                                achievementConditions[eachAchievement.title] && ( //will return the the values from the achievementConditions keys
+                                    <BasicCard
+                                        icon
+                                        key={index}
+                                        color="#e0e0e0"
+                                        width={275}
+                                        height={125}
+                                        className="basicCard"
+                                        title={eachAchievement.title}
+                                        text={eachAchievement.text}
+                                    />
+                                )
                             ))}
                         </div>
                     </div>
                 </div>
-
             ) : quizzes ? (
                 <h5>User Quizzes</h5>
             ) : questions ? (

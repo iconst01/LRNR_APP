@@ -5,6 +5,9 @@ import 'materialize-css/dist/css/materialize.min.css';
 import 'materialize-css/dist/js/materialize.min.js';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
+import { useContext } from 'react';
+import { UserContext } from '../context/UserProvider';
+
 const TopicSelect = () => {
     //state to manage form data
     const [formData, setFormData] = useState({
@@ -14,6 +17,32 @@ const TopicSelect = () => {
         numberOfQuestions: '',
         styleOfQuestions: ''
     });
+
+    const { user, setUser } = useContext(UserContext);
+
+    //everytime the User object's properties are changed update it in local storage for persistance
+    useEffect(() => {
+       if (user) {
+           localStorage.setItem("user", JSON.stringify(user));
+       }
+   }, [user]);
+   
+   //everytime the formData.topic changes update the user's topic in context
+   useEffect(() => {
+       //copying the prevUser in context to avoid directly mutating it
+       setUser((prevUser) => ({
+           ...prevUser,
+           topic: formData.topic,
+       }));
+   }, [formData.topic]); 
+
+   useEffect(() => {
+    setUser((prevUser) => ({
+        ...prevUser,
+        customTopic: formData.customTopic,
+    }));
+}, [formData.customTopic]); 
+
     //state to store API response messages
     const [responseText, setResponseText] = useState('');
     //state to manage loading state during API calls

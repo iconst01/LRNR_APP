@@ -10,6 +10,11 @@ import QuestionContainer from "../components/QuestionContainer"; // Component to
 import AnswerInput from "../components/AnswerInput"; // Component for user input
 import EvaluationSection from "../components/EvaluationSection"; // Component to display evaluation results
 
+import { useContext } from "react";
+import { UserContext} from "../context/UserProvider"
+import { updateXP, updateStreak } from '../utils/badgeSystem';
+
+
 // Define the QuizPage component
 const QuizPage = () => {
     // useLocation hook to access state passed from the previous component
@@ -33,6 +38,8 @@ const QuizPage = () => {
     // useNavigate hook to programmatically navigate to different routes
     const navigate = useNavigate();
 
+    const { user, setUser } = useContext(UserContext); 
+
     // useEffect to validate questions and answers data
     useEffect(() => {
         // If questions or answers are missing or empty, redirect to the quiz generation page
@@ -55,10 +62,24 @@ const QuizPage = () => {
         const isCorrect = answer.trim().toLowerCase() === correctAnswer.toLowerCase();
 
         // If the answer is correct
+        const updatedUser = { ...user }
+
         if (isCorrect) {
             setCorrectCount(prev => prev + 1); // Increment the correct count
             setEvaluationText("Correct! Well done!"); // Set evaluation text for correct answer
+
+            //XP logic below
+            if(!user.customTopic) {
+                updateXP(updatedUser, 10, user.topic);
+            }else {
+                updateXP(updatedUser, 10, user.customTopic);
+            }
+            
+            updateStreak(updatedUser)
+            setUser(updatedUser)
         } else {
+            updateStreak(updatedUser, false)
+            setUser(updatedUser)
             // If the answer is incorrect, generate detailed feedback using Google's Generative AI
             try {
                 const apiKey = import.meta.env.VITE_API_KEY; // Get API key from environment variables
