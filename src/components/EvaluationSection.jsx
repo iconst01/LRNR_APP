@@ -8,7 +8,6 @@ const EvaluationSection = ({correctAnswer, evaluation, handleNext, isLastQuestio
                 <div className="evalLeft">
                     <h6>Correct Answer: {correctAnswer}</h6>
                 </div>
-                
                 {/* Right Side - Explanation */}
                 <div className="evalRight">
                     <p>{evaluation}</p>
