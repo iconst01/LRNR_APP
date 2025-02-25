@@ -1,11 +1,9 @@
-
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'materialize-css/dist/css/materialize.min.css';
 import 'materialize-css/dist/js/materialize.min.js';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { ClipLoader } from 'react-spinners';
-
 
 const TopicSelect = () => {
     //state to manage form data
@@ -20,10 +18,12 @@ const TopicSelect = () => {
     const [responseText, setResponseText] = useState('');
     //state to manage loading state during API calls
     const [loading, setLoading] = useState(false);
+    //state to manage form errors
+    const [formErrors, setFormErrors] = useState({});
     //useNavigate hook to navigate to different routes
     const navigate = useNavigate();
 
-    //example topics it can aslo be fetched from API
+    //example topics it can also be fetched from API
     const exampleTopics = ['Math', 'Science', 'History'];
 
     //initialize materialize select dropdowns after the component mounts
@@ -31,14 +31,44 @@ const TopicSelect = () => {
         const selects = document.querySelectorAll('select');
         M.FormSelect.init(selects);
     }, []);
+
+    //function to validate form data
+    const validateForm = () => {
+        const errors = {};
+
+        if (!formData.topic) {
+            errors.topic = "Topic is required.";
+        } else if (formData.topic === 'custom' && !formData.customTopic) {
+            errors.customTopic = "Custom topic is required.";
+        }
+
+        if (!formData.expertise) {
+            errors.expertise = "Expertise level is required.";
+        }
+
+        if (!formData.numberOfQuestions) {
+            errors.numberOfQuestions = "Number of questions is required.";
+        }
+
+        if (!formData.styleOfQuestions) {
+            errors.styleOfQuestions = "Style of questions is required.";
+        }
+
+        return errors;
+    };
+
     //function to handle form submission
     const handleSubmit = async (e) => {
-        e.preventDefault();//prevent default form submission behavior
+        e.preventDefault(); // prevent default form submission behavior
+
         // Validate form data
-        if (!formData.topic || (formData.topic === 'custom' && !formData.customTopic) || !formData.expertise || !formData.numberOfQuestions || !formData.styleOfQuestions) {
+        const errors = validateForm();
+        if (Object.keys(errors).length > 0) {
             setResponseText("Please fill out all required fields.");
+            setFormErrors(errors);
             return;
         }
+
         console.log('Form submitted:', formData);
 
         setLoading(true);
@@ -52,11 +82,11 @@ const TopicSelect = () => {
                 return;
             }
 
-            //Intialize Googles Generative AI with the API key
+            //Initialize Google's Generative AI with the API key
             const genAI = new GoogleGenerativeAI(apiKey);
             const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-            //use customTopic id the topic is set to 'custom',otherwise use the selected topic
+            //use customTopic if the topic is set to 'custom', otherwise use the selected topic
             const selectedTopic = formData.topic === 'custom' ? formData.customTopic : formData.topic;
 
             const prompt = `Generate ${formData.numberOfQuestions} ${formData.styleOfQuestions} questions for a ${formData.expertise} level in the topic of ${selectedTopic}. For each question, provide the correct answer. Format the response as follows:
@@ -70,22 +100,22 @@ const TopicSelect = () => {
             const result = await model.generateContent(prompt);
             const response = result.response.text();
 
-            //parse the response to take questions and answers
+            //parse the response to extract questions and answers
             const questionsAndAnswers = response.split('\n').filter(q => q.trim() !== '');
             const questions = [];
             const answers = [];
 
             questionsAndAnswers.forEach((line, index) => {
                 if (line.startsWith('Q')) {
-                    //extract questions(lines starting with 'Q)
+                    //extract questions (lines starting with 'Q')
                     questions.push(line.substring(3).trim());
                 } else if (line.startsWith('A')) {
-                    //take answers (lines starting with 'A)
+                    //extract answers (lines starting with 'A')
                     answers.push(line.substring(3).trim());
                 }
             });
 
-            //navigate to the quiz pg with the generated questions and answers
+            //navigate to the quiz page with the generated questions and answers
             navigate('/quiz-page', { state: { questions, answers, numberOfQuestions: formData.numberOfQuestions } });
         } catch (error) {
             //handle errors 
@@ -96,11 +126,12 @@ const TopicSelect = () => {
             setLoading(false);
         }
     };
+
     //function to handle form input changes
     const handleChange = (e) => {
         setFormData({
             ...formData,
-            [e.target.name]: e.target.value //update the corresponding fieldin formData
+            [e.target.name]: e.target.value //update the corresponding field in formData
         });
     };
 
@@ -149,17 +180,16 @@ const TopicSelect = () => {
                                 <option value="custom"> + Add custom Topic</option>
                             </select>
                             <label>Topic</label>
+                            {formErrors.topic && <span className="red-text">{formErrors.topic}</span>}
                         </div>
 
-                        {/* custom topic input field only visible when "custom" is choosen*/}
+                        {/* custom topic input field only visible when "custom" is chosen */}
                         {formData.topic === 'custom' && (
                             <div style={{
                                 display: 'flex',
                                 gap: '10px',
                                 marginTop: '-10px',
                             }}>
-
-
                                 <div className="input-field" style={{ flex: 1 }}>
                                     <input
                                         type="text"
@@ -169,6 +199,7 @@ const TopicSelect = () => {
                                         placeholder="Enter your topic"
                                         required
                                     />
+                                    {formErrors.customTopic && <span className="red-text">{formErrors.customTopic}</span>}
                                 </div>
                             </div>
                         )}
@@ -185,6 +216,7 @@ const TopicSelect = () => {
                                 <option value="advanced">Advanced</option>
                             </select>
                             <label>Expertise</label>
+                            {formErrors.expertise && <span className="red-text">{formErrors.expertise}</span>}
                         </div>
 
                         {/* Number of questions selection dropdown */}
@@ -201,6 +233,7 @@ const TopicSelect = () => {
                                 <option value="20">20</option>
                             </select>
                             <label>Number of questions</label>
+                            {formErrors.numberOfQuestions && <span className="red-text">{formErrors.numberOfQuestions}</span>}
                         </div>
 
                         {/* Style of questions selection dropdown */}
@@ -217,6 +250,7 @@ const TopicSelect = () => {
                                 <option value="open-ended">Open Ended</option>
                             </select>
                             <label>Style of questions</label>
+                            {formErrors.styleOfQuestions && <span className="red-text">{formErrors.styleOfQuestions}</span>}
                         </div>
 
                         {/* Submit button */}
@@ -242,4 +276,3 @@ const TopicSelect = () => {
 };
 
 export default TopicSelect;
-
