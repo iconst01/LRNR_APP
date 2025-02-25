@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import 'materialize-css/dist/css/materialize.min.css';
 import 'materialize-css/dist/js/materialize.min.js';
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { ClipLoader } from 'react-spinners';
 
 const TopicSelect = () => {
     //state to manage form data
@@ -96,6 +97,27 @@ const TopicSelect = () => {
             [e.target.name]: e.target.value //update the corresponding fieldin formData
         });
     };
+
+    if (loading) {
+        return (
+            <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                minHeight: '300px',
+                padding: '20px'
+            }}>
+                <ClipLoader color="#26a69a" size={70} />
+                <p className="teal-text" style={{ marginTop: '30px', textAlign: 'center' }}>
+                    Generating your quiz questions...
+                </p>
+                <p className="grey-text text-darken-1" style={{ marginTop: '10px', textAlign: 'center', fontSize: '0.9em' }}>
+                    This may take a few moments
+                </p>
+            </div>
+        );
+    }
 
     return (
         <div>
@@ -197,12 +219,16 @@ const TopicSelect = () => {
                             type="submit"
                             disabled={loading}
                         >
-                            {loading ? 'Generating...' : 'SUBMIT'}
+                            SUBMIT
                         </button>
                     </form>
 
                     {/* Display response text */}
-                    {responseText && <div className="response-text"><p>{responseText}</p></div>}
+                    {responseText && (
+                        <div className="response-text red-text" style={{ marginTop: '20px' }}>
+                            <p>{responseText}</p>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
