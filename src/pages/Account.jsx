@@ -107,11 +107,12 @@ const Account = () => {
           </div>
         </ResponsiveDiv>
         <div>
-          <button onClick={handleLogout}>logout</button>
+         
         </div>
       </div> */}
       <AccountDashboard/>    
 
+      {/* <button onClick={handleLogout} className="logoutBtn waves-effect waves-light teal darken-1 btn">logout</button> */}
     </div>
     
   );

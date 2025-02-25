@@ -40,7 +40,7 @@ export default function Navbar() {
            {!user?.name && <li><Link to="/login">Login</Link></li>} 
 
             {/* hides account if you are not logged in */}
-            {user?.name && <li><Link to="/account">Account</Link></li>            }
+            {user?.name && <li><Link to="/account">Account</Link></li>}
             
             <li><Link to="/quiz-gen">Quiz Generation</Link></li>
           </ul>
@@ -58,7 +58,7 @@ export default function Navbar() {
 
         {!user?.name && <li><Link to="/login">Login</Link></li>}
 
-        {user?.name && <li><Link to="/account">Account</Link></li>            }
+        {user?.name && <li><Link to="/account">Account</Link></li>}
         <li><Link to="/quiz-gen">Quiz Generation</Link></li>
       </ul>
     </>
