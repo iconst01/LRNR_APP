@@ -40,16 +40,18 @@ const ResultsPage = () => {
                 </div>
 
                 {/* Section for displaying detailed results */}
-                <div className="section">
+                <div className="section container">
                     <h6>Detailed Results:</h6>
                     <ul>
                         {/* Map through userAnswers to display each question's details */}
-                        {userAnswers.map((result, index) => (
+                        {userAnswers.map((result, index) => ( 
                             <li key={index}>
-                                <strong>Question {index + 1}:</strong> {result.question}<br />
-                                <strong>Your Answer:</strong> {result.userAnswer}<br />
-                                <strong>Correct Answer:</strong> {result.correctAnswer}<br />
-                                <strong>Result:</strong> {result.isCorrect ? "Correct" : "Incorrect"}
+                                <div className="card section " style={{  marginBottom: '15px', textAlign: "left", padding: "20px"}}>
+                                <strong className="cardTitle">Question {index + 1}:</strong> {result.question}<br />
+                                <strong className="cardTitle">Your Answer:</strong> {result.userAnswer}<br />
+                                <strong className="cardTitle">Correct Answer:</strong> {result.correctAnswer}<br />
+                                <strong className="cardTitle">Result:</strong> {result.isCorrect ? "Correct" : "Incorrect"}
+                                </div>
                             </li>
                         ))}
                     </ul>
