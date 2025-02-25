@@ -43,7 +43,6 @@ export default function Navbar() {
             <li><Link to="/quiz-gen">Quiz Generation</Link></li>
           </ul>
 
-
           {/* hamburger menu on right side */}
           <Link to={{stayOnCurrentPage}} data-target="mobile-demo" className="sidenav-trigger right" style={{ marginRight: "1rem" }}>
             <i className="material-icons">menu</i>
