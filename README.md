@@ -43,6 +43,7 @@ This project leverages modern tools and libraries to provide an efficient and en
 - **Materialize CSS** – A modern responsive front-end framework for designing sleek and intuitive user interfaces.
 - **React Router** – Enables dynamic routing for seamless navigation across the application.
 - **Framer Motion** – Provides advanced animation capabilities for a more interactive user experience.
+- **React Spinners** - is a React library for customizable CSS-based loading spinners.
 - **Styled Components** – Allows writing CSS-in-JS, making component styling more modular and maintainable.
 - **Axios** – A promise-based HTTP client for handling API requests efficiently.
 - **ESLint** – A tool for identifying and fixing code quality issues to ensure consistent coding standards.
