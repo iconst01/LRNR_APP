@@ -1,5 +1,4 @@
-
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { SyncLoader } from "react-spinners";
 import "../styles/QuizPage.css";
@@ -10,6 +9,8 @@ import QuestionNumber from "../components/QuestionNumber";
 import QuestionContainer from "../components/QuestionContainer";
 import AnswerInput from "../components/AnswerInput";
 import EvaluationSection from "../components/EvaluationSection";
+import { updateXP, updateStreak } from "../utils/badgeSystem";
+import { UserContext } from "../context/UserProvider";
 
 const QuizPage = () => {
     const location = useLocation();
@@ -23,6 +24,7 @@ const QuizPage = () => {
     const [correctCount, setCorrectCount] = useState(0);
     const [isLoading, setIsLoading] = useState(false); 
     const navigate = useNavigate();
+    const { user, setUser } = useContext(UserContext);
 
     useEffect(() => {
         if (!questions || questions.length === 0 || !answers || answers.length === 0) {
@@ -77,12 +79,38 @@ const QuizPage = () => {
         setIsLoading(true);
         const correctAnswer = answers[currentQuestion]; 
         const isCorrect = isAnswerCorrect(answer, correctAnswer);
+        const updatedUser = { ...user };
 
-        try {
-            if (isCorrect) {
-                setCorrectCount(prev => prev + 1);
-                setEvaluationText("Correct! Well done!");
+        if (isCorrect) {
+            setCorrectCount(prev => prev + 1);
+            setEvaluationText("Correct! Well done!");
+
+            if (!user.customTopic) {
+                updateXP(updatedUser, 10, user.topic);
             } else {
+                updateXP(updatedUser, 10, user.customTopic);
+            }
+
+            updateStreak(updatedUser);
+            setUser(updatedUser);
+        } else {
+            updateStreak(updatedUser, false);
+            setUser(updatedUser);
+        }
+
+        setUserAnswers(prev => [
+            ...prev,
+            {
+                question: questions[currentQuestion],
+                userAnswer: answer,
+                correctAnswer,
+                isCorrect,
+            }
+        ]);
+
+        // If the answer is incorrect, call the API for the evaluation
+        if (!isCorrect) {
+            try {
                 const apiKey = import.meta.env.VITE_API_KEY;
                 if (!apiKey) {
                     console.error("API key is not defined");
@@ -95,20 +123,11 @@ const QuizPage = () => {
                 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
                 const prompt = `The question is: "${questions[currentQuestion]}".  
-The correct answer is: "${correctAnswer}".  
-The user answered: "${answer}".  
-
-### Evaluation Criteria:
-1.If the user's has spelling errors, singular/plural differences, or slight wording changes or minor mistake in answer **DO NOT** mark it as incorrect but instead award the user with a point.
-Please provide a concise evaluation.
-2. If the answer is incorrect or significantly different, explain why and provide the correct reasoning in a **supportive** way.
-
-**IMPORTANT:**
-- If the answer is incorrect, provide a constructive and encouraging explanation.
-- If the user's has spelling errors, singular/plural differences, or slight wording changes or minor mistake in answer **DO NOT** mark it as incorrect but instead award the user with a point.
-Please provide a concise evaluation.`;
-
-                
+                The correct answer is: "${correctAnswer}".  
+                The user answered: "${answer}".  
+                ### Evaluation Criteria: 
+                1. If the user's answer has spelling errors, singular/plural differences, or slight wording changes, **DO NOT** mark it as incorrect but instead award the user with a point.
+                2. If the answer is incorrect or significantly different, explain why and provide the correct reasoning in a **supportive** way.`;
 
                 const result = await model.generateContent(prompt);
                 const response = result.response?.candidates?.[0]?.content?.parts?.[0]?.text;
@@ -118,25 +137,15 @@ Please provide a concise evaluation.`;
                 } else {
                     setEvaluationText(response);
                 }
+            } catch (error) {
+                console.error("Error generating evaluation:", error);
+                setEvaluationText("Sorry, something went wrong while generating the evaluation. Please try again.");
             }
-
-            setUserAnswers(prev => [
-                ...prev,
-                {
-                    question: questions[currentQuestion],
-                    userAnswer: answer,
-                    correctAnswer,
-                    isCorrect,
-                }
-            ]);
-            setShowEvaluation(true);
-            setError("");
-        } catch (error) {
-            console.error("Error generating evaluation:", error);
-            setEvaluationText("Sorry, something went wrong while generating the evaluation. Please try again.");
-        } finally {
-            setIsLoading(false);
         }
+
+        setShowEvaluation(true);
+        setError("");
+        setIsLoading(false);
     };
 
     const handleNext = () => {
