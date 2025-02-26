@@ -5,8 +5,7 @@ import 'materialize-css/dist/js/materialize.min.js';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { ClipLoader } from 'react-spinners';
 
-import { useContext } from 'react';
-import { UserContext } from '../context/UserProvider';
+
 
 const TopicSelect = () => {
     // State to manage form data
