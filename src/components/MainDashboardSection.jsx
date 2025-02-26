@@ -8,6 +8,10 @@ import { UserContext } from "../context/UserProvider";
 export default function MainDashboardSection({ badges = true, quizzes, questions, answers }) {
     const { user } = useContext(UserContext);
     const achievementConditions = getAchievementConditions(user); 
+    
+    const dateOptions = { month: "short", day: "numeric", year: "numeric" };
+    const formattedDate = new Date().toLocaleDateString("en-US", dateOptions);
+  
 
     return (
         <div className="mainDashboardWrapper">
@@ -36,7 +40,40 @@ export default function MainDashboardSection({ badges = true, quizzes, questions
                     </div>
                 </div>
             ) : quizzes ? (
-                <h5>User Quizzes</h5>
+                <>
+                    <h5>Your Quizzes</h5>
+                    <div className="">
+                        <div className="yourQuizBarWrapper">
+                            <p>ACTIVITY</p>
+                            <div><p>DATE</p>
+                            <p>LEVEL</p></div>
+                            
+                            <p>CORRECT/TOTAL PROBLEMS</p>
+                        </div>
+                        <div>
+                            <div className="yourQuizInfoWrapper">
+                                <div className="yourQuizWordsWrapper">
+                                    <div className="yourQuizWords">
+                                        <p>What is Math?</p>
+                                        <p>Breakthrough Junior Challenge</p>
+                                    </div>
+                                
+                                    <div className="yourQuizOddInfo">
+                                    <div>{formattedDate}</div>
+                                    <div>Beginner</div>
+                                    </div>
+                                
+                                    <div className="correctTotal"><p>6/7</p></div>
+                                </div>
+                               
+                                <div className="seperator3"></div>
+                            </div>
+                            <div></div>
+                        </div>    
+                    </div>
+
+                </>
+
             ): null}
         </div>
     );

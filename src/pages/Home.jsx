@@ -27,6 +27,7 @@ const ResponsiveDiv = styled.div`
   }
 `;
 
+
 export default function Home() {
 
   return (
