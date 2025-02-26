@@ -55,7 +55,7 @@ const QuizPage = () => {
         const accuracy = matchedKeywords.length / correctKeywords.length;
     
         // Check if the answer matches 80% or more of the correct answer, or if it's slightly different
-        if (accuracy >= 0.8) {
+        if (accuracy >= 0.2) {
             return true;  // Major part of the answer matches, so it's considered correct
         }
     
@@ -99,15 +99,13 @@ The correct answer is: "${correctAnswer}".
 The user answered: "${answer}".  
 
 ### Evaluation Criteria:
-1. If the user's answer conveys the same meaning as the correct answer, even with minor mistakes (spelling errors, singular/plural differences, or slight wording changes), **DO NOT** mark it as incorrect but instead award the user with a point.
-2. If the answer is **mostly correct but slightly different**, acknowledge it as correct and provide guidance.
-3. If the answer is incorrect or significantly different, explain why and provide the correct reasoning in a **supportive** way.
+1.If the user's has spelling errors, singular/plural differences, or slight wording changes or minor mistake in answer **DO NOT** mark it as incorrect but instead award the user with a point.
+Please provide a concise evaluation.
+2. If the answer is incorrect or significantly different, explain why and provide the correct reasoning in a **supportive** way.
 
 **IMPORTANT:**
-- Minor typos or different word forms (e.g., "coffee bean" vs. "coffee beans") should **still be considered correct**.
-- Do **NOT** be overly strict in evaluating answers.
 - If the answer is incorrect, provide a constructive and encouraging explanation.
-- If the user's answer conveys the same meaning as the correct answer, even with minor mistakes (spelling errors, singular/plural differences, or slight wording changes), **DO NOT** mark it as incorrect but instead award the user with a point.
+- If the user's has spelling errors, singular/plural differences, or slight wording changes or minor mistake in answer **DO NOT** mark it as incorrect but instead award the user with a point.
 Please provide a concise evaluation.`;
 
                 
