@@ -5,8 +5,6 @@ import 'materialize-css/dist/js/materialize.min.js';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { ClipLoader } from 'react-spinners';
 
-
-
 const TopicSelect = () => {
     // State to manage form data
     const [formData, setFormData] = useState({
@@ -250,7 +248,6 @@ Style the questions as if they are spoken by **${formData.styleOfQuestions}**. E
                                 <option value="advanced">Advanced</option>
                             </select>
                             <label>Expertise</label>
-                            {formErrors.expertise && <span className="red-text">{formErrors.expertise}</span>}
                         </div>
 
                         {/* Number of questions selection dropdown */}
@@ -267,7 +264,6 @@ Style the questions as if they are spoken by **${formData.styleOfQuestions}**. E
                                 <option value="20">20</option>
                             </select>
                             <label>Number of questions</label>
-                            {formErrors.numberOfQuestions && <span className="red-text">{formErrors.numberOfQuestions}</span>}
                         </div>
 
                         {/* Style of questions selection dropdown */}
@@ -287,7 +283,6 @@ Style the questions as if they are spoken by **${formData.styleOfQuestions}**. E
                                 <option value="master oogway">Master Oogway</option>
                             </select>
                             <label>Style of questions</label>
-                            {formErrors.styleOfQuestions && <span className="red-text">{formErrors.styleOfQuestions}</span>}
                         </div>
 
                         {/* Submit button */}
@@ -313,7 +308,3 @@ Style the questions as if they are spoken by **${formData.styleOfQuestions}**. E
 };
 
 export default TopicSelect;
-
-
-
-
