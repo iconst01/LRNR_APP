@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { SyncLoader } from "react-spinners";
@@ -44,14 +45,28 @@ const QuizPage = () => {
     const isAnswerCorrect = (userAnswer, correctAnswer) => {
         const normalizedUserAnswer = normalizeAnswer(userAnswer);
         const normalizedCorrectAnswer = normalizeAnswer(correctAnswer);
+    
+        // Allowing for some flexibility in the answer matching
         const userKeywords = extractKeywords(normalizedUserAnswer);
         const correctKeywords = extractKeywords(normalizedCorrectAnswer);
-
+    
+        // Adjust the keyword match logic to be more lenient
         const matchedKeywords = userKeywords.filter(keyword => correctKeywords.includes(keyword));
         const accuracy = matchedKeywords.length / correctKeywords.length;
-
-        return accuracy >= 0.8;  // Accept answers that are at least 80% correct
+    
+        // Check if the answer matches 80% or more of the correct answer, or if it's slightly different
+        if (accuracy >= 0.8) {
+            return true;  // Major part of the answer matches, so it's considered correct
+        }
+    
+        // Additional lenient check: if user’s answer conveys the right meaning despite slight differences (like typos or rephrasing)
+        // This part allows for minor differences like synonyms or slight word changes
+        const isSlightlyCorrect = userKeywords.some(keyword => normalizedCorrectAnswer.includes(keyword)) || 
+                                  normalizedUserAnswer.includes(normalizedCorrectAnswer); 
+    
+        return isSlightlyCorrect;
     };
+    
 
     const handleSubmit = async () => {
         if (!answer.trim()) {
@@ -84,7 +99,7 @@ The correct answer is: "${correctAnswer}".
 The user answered: "${answer}".  
 
 ### Evaluation Criteria:
-1. If the user's answer conveys the same meaning as the correct answer, even with minor mistakes (spelling errors, singular/plural differences, or slight wording changes), **DO NOT** mark it as incorrect.
+1. If the user's answer conveys the same meaning as the correct answer, even with minor mistakes (spelling errors, singular/plural differences, or slight wording changes), **DO NOT** mark it as incorrect but instead award the user with a point.
 2. If the answer is **mostly correct but slightly different**, acknowledge it as correct and provide guidance.
 3. If the answer is incorrect or significantly different, explain why and provide the correct reasoning in a **supportive** way.
 
@@ -92,7 +107,7 @@ The user answered: "${answer}".
 - Minor typos or different word forms (e.g., "coffee bean" vs. "coffee beans") should **still be considered correct**.
 - Do **NOT** be overly strict in evaluating answers.
 - If the answer is incorrect, provide a constructive and encouraging explanation.
-
+- If the user's answer conveys the same meaning as the correct answer, even with minor mistakes (spelling errors, singular/plural differences, or slight wording changes), **DO NOT** mark it as incorrect but instead award the user with a point.
 Please provide a concise evaluation.`;
 
                 
