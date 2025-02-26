@@ -1,3 +1,4 @@
+
 const EvaluationSection = ({correctAnswer, evaluation, handleNext, isLastQuestion }) => {
     return (
         <div className="section evalContainer">
@@ -20,6 +21,7 @@ const EvaluationSection = ({correctAnswer, evaluation, handleNext, isLastQuestio
             {/* Bottom Section - Next Button */}
             <button className="waves-effect waves-light btn-large teal darken-1 nextBtn" onClick={handleNext}>
                 {isLastQuestion ? "FINISH" : "NEXT"}
+
             </button>
         </div>
     );

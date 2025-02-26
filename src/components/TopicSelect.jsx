@@ -1,8 +1,10 @@
+
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'materialize-css/dist/css/materialize.min.css';
 import 'materialize-css/dist/js/materialize.min.js';
 import { GoogleGenerativeAI } from '@google/generative-ai';
+
 import { ClipLoader } from 'react-spinners';
 
 import { useContext } from 'react';
@@ -242,6 +244,7 @@ Style the questions as if they are spoken by **${formData.styleOfQuestions}**. E
                                 onChange={handleChange}
                             >
                                 <option value="" disabled></option>
+
                                 {/* Example topics */}
                                 {exampleTopics.map((topic, index) => (
                                     <option key={index} value={topic}>{topic}</option>
@@ -327,6 +330,7 @@ Style the questions as if they are spoken by **${formData.styleOfQuestions}**. E
                     </form>
 
                     {/* Display response text */}
+
                     {responseText && (
                         <div className="response-text red-text" style={{ marginTop: '20px' }}>
                             <p>{responseText}</p>
