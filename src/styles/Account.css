@@ -201,7 +201,7 @@
 
 .seperator3 {
     background-color: #DBDCDD;
-    width: 100%;
+    width: 110%;
     height: 1.5px;
 }
 
@@ -319,7 +319,7 @@
 
     & div:nth-child(2) {
         position: relative;
-        left: 3rem;
+        left: 3.5rem;
     }
 }
 
@@ -337,6 +337,10 @@
 }
 .yourQuizInfoWrapper {
     width: 90%;
+}
+
+.yourQuizContainer {
+    margin-right: 5rem;
 }
 
 .yourQuizWords {

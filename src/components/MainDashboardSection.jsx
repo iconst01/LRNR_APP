@@ -8,7 +8,7 @@ import { UserContext } from "../context/UserProvider";
 export default function MainDashboardSection({ badges = true, quizzes, questions, answers }) {
     const { user } = useContext(UserContext);
     const achievementConditions = getAchievementConditions(user); 
-    
+
     const dateOptions = { month: "short", day: "numeric", year: "numeric" };
     const formattedDate = new Date().toLocaleDateString("en-US", dateOptions);
   
@@ -42,7 +42,7 @@ export default function MainDashboardSection({ badges = true, quizzes, questions
             ) : quizzes ? (
                 <>
                     <h5>Your Quizzes</h5>
-                    <div className="">
+                    <div className="yourQuizContainer">
                         <div className="yourQuizBarWrapper">
                             <p>ACTIVITY</p>
                             <div><p>DATE</p>
