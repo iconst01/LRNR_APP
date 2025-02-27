@@ -11,11 +11,8 @@ body {
   /* Allows the main content to expand */
   padding: 35px;
   margin-right: 100px;
-<<<<<<< HEAD
-=======
 }
 
 .input-field {
   min-height: 60px; /* Adjust as needed */
->>>>>>> main
 }
