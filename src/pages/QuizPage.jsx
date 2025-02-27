@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { SyncLoader } from "react-spinners";
@@ -28,7 +29,7 @@ const QuizPage = () => {
 
     useEffect(() => {
         if (!questions || questions.length === 0 || !answers || answers.length === 0) {
-            navigate("/quiz-gen");
+            navigate("/quiz-gen"); 
         }
     }, [questions, answers, navigate]);
 
@@ -73,7 +74,7 @@ const QuizPage = () => {
     const handleSubmit = async () => {
         if (!answer.trim()) {
             setError("Please enter an answer.");
-            return;
+            return; 
         }
 
         setIsLoading(true);
@@ -161,6 +162,7 @@ const QuizPage = () => {
     };
 
     const currentQuestionData = questions[currentQuestion];
+    const correctAnswer = answers[currentQuestion];
 
     return (
         <div className="mainContainer">
@@ -190,7 +192,7 @@ const QuizPage = () => {
                 </div>
             ) : (
                 <EvaluationSection
-                    correctAnswer={answers[currentQuestion]}
+                    correctAnswer={correctAnswer}
                     evaluation={evaluationText}
                     handleNext={handleNext}
                     isLastQuestion={currentQuestion === numberOfQuestions - 1}
