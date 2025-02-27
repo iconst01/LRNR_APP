@@ -10,7 +10,7 @@ export default function UserBadgeList() {
         <div style={{width: "80%"}}>
             <h5>Badges</h5>
             <div className="badgeListWrapper" style={{position: "relative"}}>
-                {user.badges.map((badge, index) => (       
+                {user.badges?.map((badge, index) => (       
                         <div key={index} className='badgeIconWrapper'>
                             {/* this will dynamically display the logged in user's badges */}
                             <BadgeIcon userBadge={badge.badge} width={150} height={150} />

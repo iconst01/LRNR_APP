@@ -4,7 +4,6 @@ import { useLocation } from "react-router-dom";
 
 
 export default function Footer() {
-
  return (
   //moves the footer down on the account page
   useLocation().pathname === "/account" ? (<footer
@@ -28,7 +27,6 @@ export default function Footer() {
           <li><Link className="grey-text text-lighten-3" to="/quiz-gen">Quiz Generator</Link></li>
           <li><Link className="grey-text text-lighten-3" to="/account">Account</Link></li>
         </ul>
-
       </div>
     </div>
   </div>
@@ -68,4 +66,5 @@ export default function Footer() {
    </footer>
  );
 }
+
 
