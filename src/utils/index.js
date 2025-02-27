@@ -9,6 +9,14 @@ export const users = [];
 
 export class User {
   constructor(name, lastName, username, password) {
+    this.id = crypto.randomUUID();
+    this.name = name;
+    this.lastName = lastName;
+    this.username = username;
+    this.password = password;
+    this.level = 0;
+    this.streak = 0;
+    this.badges = [];
       this.id = crypto.randomUUID();
       this.name = name;
       this.lastName = lastName;
