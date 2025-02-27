@@ -55,7 +55,7 @@ const Login = () => {
   // If the user is login, send the user to the account page
   useEffect(() => {
     const isUserLogin = () => {
-      if (user) {
+      if (user?.name) {
         navigate("/account");
         return;
       }

@@ -1,32 +1,16 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useContext, useEffect } from "react";
 import M from "materialize-css";
 import { UserContext } from "../context/UserProvider"; 
 
 export default function Navbar() {
-  const navigate = useNavigate();
-  
-  // handle navbar links with context instead of localStorage
   const { user } = useContext(UserContext); 
-
 
   useEffect(() => {
     // Initialize Materialize sidenav
     const elems = document.querySelectorAll(".sidenav");
     M.Sidenav.init(elems, { edge: "right" });
   }, []);
-
-  // Handle login button click
-  const handleLoginClick = (e) => {
-    e.preventDefault();
-    navigate("/login");
-  };
-
-  // Handle account button click
-  const handleAccountClick = (e) => {
-    e.preventDefault();
-    navigate("/account");
-  };
 
   return (
     <>
@@ -38,10 +22,10 @@ export default function Navbar() {
 
           {/* Desktop Menu */}
           <ul id="nav-mobile" className="right hide-on-med-and-down" style={{ marginRight: "2rem" }}>
-            {!user ? (
-              <li><Link to="/login" onClick={handleLoginClick}>Login</Link></li>
+            {!user?.name ? (
+              <li><Link to="/login">Login</Link></li>
             ) : (
-              <li><Link to="/account" onClick={handleAccountClick}>Account</Link></li>
+              <li><Link to="/account">Account</Link></li>
             )}
             <li><Link to="/quiz-gen">Quiz Generation</Link></li>
           </ul>
@@ -56,10 +40,10 @@ export default function Navbar() {
       {/* Mobile Navigation Menu */}
       <ul className="sidenav" id="mobile-demo">
         <li><Link to="/">Home</Link></li>
-        {!user ? (
-          <li><Link to="/login" onClick={handleLoginClick}>Login</Link></li>
+        {!user?.name ? (
+          <li><Link to="/login">Login</Link></li>
         ) : (
-          <li><Link to="/account" onClick={handleAccountClick}>Account</Link></li>
+          <li><Link to="/account">Account</Link></li>
         )}
         <li><Link to="/quiz-gen">Quiz Generation</Link></li>
       </ul>

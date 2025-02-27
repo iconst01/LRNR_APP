@@ -38,7 +38,7 @@ const Account = () => {
 
   // Check if the user is login
   useEffect(() => {
-    if (!user) {
+    if (!user?.name) {
       navigate("/login");
       return;
     }
