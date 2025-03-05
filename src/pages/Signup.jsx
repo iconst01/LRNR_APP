@@ -15,9 +15,25 @@ const Signup = () => {
   const [lastNameInput, setLastNameInput] = useState("");
   const [usernameInput, setUsernameInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const createAccount = (event) => {
     event.preventDefault();
+
+    // Bring the users saved in localStorage ( This is like our database where we have all the users )
+    const usersStorage = JSON.parse(localStorage.getItem("users")) || [];
+
+    // Search for the user with the exact same username and password
+    const validateUsername = usersStorage.find(
+      (user) => user.username === usernameInput
+    );
+
+    if (validateUsername) {
+      setErrorMessage("Username already exist");
+      return;
+    } else {
+      setErrorMessage("");
+    }
 
     // Create a new user
     const newUser = new User(
@@ -28,7 +44,6 @@ const Signup = () => {
     );
 
     // Save user in the array users at localStorage
-    const usersStorage = JSON.parse(localStorage.getItem("users")) || [];
     usersStorage.push(newUser);
     localStorage.setItem("users", JSON.stringify(usersStorage));
 
@@ -62,6 +77,7 @@ const Signup = () => {
               onInput={(event) => setNameInput(event.target.value)}
               id="first_name"
               type="text"
+              required
               className="validate"
             />
             <label htmlFor="first_name">First Name</label>
@@ -71,6 +87,7 @@ const Signup = () => {
               onInput={(event) => setLastNameInput(event.target.value)}
               id="last_name"
               type="text"
+              required
               className="validate"
             />
             <label htmlFor="last_name">Last Name</label>
@@ -81,6 +98,7 @@ const Signup = () => {
             <input
               onInput={(event) => setUsernameInput(event.target.value)}
               id="username"
+              required
               type="text"
               className="validate"
             />
@@ -93,10 +111,12 @@ const Signup = () => {
               onInput={(event) => setPasswordInput(event.target.value)}
               id="password"
               type="password"
+              required
               className="validate"
             />
             <label htmlFor="password">Password</label>
           </div>
+          <p>{errorMessage}</p>
         </div>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <div className="row">
