@@ -31,7 +31,7 @@ export default function AccountDashboard() {
                             <h8>MY STUFF</h8>
                             <p onClick={handleDashboardClick}>Badges</p>
                             <h7>PLATINUM QUIZZES</h7>
-                            <p onClick={handleDashboardClick}>Your Quizzes</p>
+                            <p className="yourQuizzesText" onClick={handleDashboardClick}>Your Quizzes</p>
                          </div>
                     </div>
                 </div>

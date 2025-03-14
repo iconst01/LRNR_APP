@@ -33,7 +33,7 @@ const Account = () => {
   const navigate = useNavigate();
 
   // User global context
-  const { user, setUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
 
   // Check if the user is login
@@ -52,68 +52,7 @@ const Account = () => {
         <UserLevelCard/>
         <UserInfoCard/>
       </div>
-      {/* <div className="container section">
-        <ResponsiveDiv
-          className="row center-align"
-          style={{ display: "flex", justifyContent: "center", gap: "2rem" }}
-        >
-          <div className="col s12 m4">
-            <span
-              className="material-icons"
-              style={{
-                color: "#1de9b6",
-                transform: "scale(2)",
-                marginBottom: "2rem",
-              }}
-            >
-              whatshot
-            </span>
-            <h5>Streak</h5>
-            <p className="left-align containerTxt">
-              You have a streak of 5 days!
-            </p>
-          </div>
-          <div className="col s12 m4">
-            <span
-              className="material-icons"
-              style={{
-                color: "#1de9b6",
-                transform: "scale(2)",
-                marginBottom: "2rem",
-              }}
-            >
-              view_list
-            </span>
-            <h5>Platinum Quizzes</h5>
-            <ul className="left-align containerTxt">
-              <li>golang - intermediate</li>
-              <li>JavaScript - beginner</li>
-              <li>AWS - beginner</li>
-            </ul>
-          </div>
-          <div className="col s12 m4">
-            <span
-              className="material-icons"
-              style={{
-                color: "#1de9b6",
-                transform: "scale(2)",
-                marginBottom: "2rem",
-              }}
-            >
-              person
-            </span>
-            <h5>lrnr Level: 2</h5>
-            <p className="center-align containerTxt">150/200 xp</p>
-          </div>
-        </ResponsiveDiv>
-        <div>
-
-         
-        </div>
-      </div> */}
       <AccountDashboard/>    
-
-      {/* <button onClick={handleLogout} className="logoutBtn waves-effect waves-light teal darken-1 btn">logout</button> */}
     </div>
     
   );
