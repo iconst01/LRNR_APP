@@ -6,12 +6,10 @@ import UserInfoCard from "../components/UserInfoCard";
 import UserLevelCard from "../components/UserLevelCard";
 import AccountDashboard from "../components/AccountDashboard";
 
-
 import "../styles/Account.css";
 import styled from "styled-components";
 import "materialize-css/dist/css/materialize.min.css";
 import "materialize-css/dist/js/materialize.min.js";
-
 
 const ResponsiveDiv = styled.div`
   margin-left: auto;
@@ -35,26 +33,29 @@ const Account = () => {
   // User global context
   const { user } = useContext(UserContext);
 
-
   // Check if the user is login
   useEffect(() => {
-    if (!user?.name) {
-      navigate("/login");
+    if (user?.name) {
       return;
     }
+    navigate("/login");
   }, []);
 
+  if (!user) {
+    return;
+  }
 
   return (
     <div>
       <div className="section teal-text text-darken-5">
-        <h1 className="titleAcc" style={{ cursor: "pointer" }}>Account</h1>
-        <UserLevelCard/>
-        <UserInfoCard/>
+        <h1 className="titleAcc" style={{ cursor: "pointer" }}>
+          Account
+        </h1>
+        <UserLevelCard />
+        <UserInfoCard />
       </div>
-      <AccountDashboard/>    
+      <AccountDashboard />
     </div>
-    
   );
 };
 
