@@ -12,3 +12,7 @@ body {
   padding: 35px;
   margin-right: 100px;
 }
+
+.input-field {
+  min-height: 60px; /* Adjust as needed */
+}

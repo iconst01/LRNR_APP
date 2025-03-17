@@ -1,8 +1,10 @@
+// Signup.js
 import { useState, useContext, useEffect } from "react";
 import { Link } from "react-router";
 import { useNavigate } from "react-router";
 import { User } from "../utils";
 import { UserContext } from "../context/UserProvider";
+import InputValidator from "../components/InputValidator";
 
 const Signup = () => {
   // User global context
@@ -10,26 +12,86 @@ const Signup = () => {
 
   const navigate = useNavigate();
 
-  // Hooks for manipulate the inputs
+  // Form data
   const [nameInput, setNameInput] = useState("");
   const [lastNameInput, setLastNameInput] = useState("");
   const [usernameInput, setUsernameInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
+  
+  // Form errors
+  const [nameError, setNameError] = useState("");
+  const [lastNameError, setLastNameError] = useState("");
+  const [usernameError, setUsernameError] = useState(""); 
+  const [passwordError, setPasswordError] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+
+  // Handle name input change
+  const handleNameChange = (event) => {
+    const value = event.target.value;
+    setNameInput(value);
+    const { isValid, error } = InputValidator.validateField("name", value);
+    setNameError(error);
+  };
+
+  // Handle last name input change
+  const handleLastNameChange = (event) => {
+    const value = event.target.value;
+    setLastNameInput(value);
+    const { isValid, error } = InputValidator.validateField("lastName", value);
+    setLastNameError(error);
+  };
+
+  // Handle username input change
+  const handleUsernameChange = (event) => {
+    const value = event.target.value;
+    setUsernameInput(value);
+    const { isValid, error } = InputValidator.validateField("username", value);
+    setUsernameError(error);
+  };
+
+  // Handle password input change
+  const handlePasswordChange = (event) => {
+    const value = event.target.value;
+    setPasswordInput(value);
+    const { isValid, error } = InputValidator.validateField("password", value);
+    setPasswordError(error);
+  };
 
   const createAccount = (event) => {
     event.preventDefault();
 
-    // Bring the users saved in localStorage ( This is like our database where we have all the users )
+    // Create form data object for validation
+    const formData = {
+      name: nameInput,
+      lastName: lastNameInput,
+      username: usernameInput,
+      password: passwordInput
+    };
+
+    // Validate all fields at once
+    const { isFormValid, errors } = InputValidator.validateForm(formData);
+    
+    // Update error states
+    setNameError(errors.name || "");
+    setLastNameError(errors.lastName || "");
+    setUsernameError(errors.username || "");
+    setPasswordError(errors.password || "");
+
+    // If validation fails, stop form submission
+    if (!isFormValid) {
+      return;
+    }
+
+    // Bring the users saved in localStorage
     const usersStorage = JSON.parse(localStorage.getItem("users")) || [];
 
-    // Search for the user with the exact same username and password
+    // Check if username already exists
     const validateUsername = usersStorage.find(
       (user) => user.username === usernameInput
     );
 
     if (validateUsername) {
-      setErrorMessage("Username already exist");
+      setErrorMessage("Username already exists");
       return;
     } else {
       setErrorMessage("");
@@ -44,7 +106,6 @@ const Signup = () => {
     );
 
     // Save user in the array users at localStorage
-    // const usersStorage = JSON.parse(localStorage.getItem("users")) || [];
     usersStorage.push(newUser);
     localStorage.setItem("users", JSON.stringify(usersStorage));
 
@@ -71,62 +132,88 @@ const Signup = () => {
 
   return (
     <div className="row">
-      <form onSubmit={(event) => createAccount(event)} className="col s12">
+      <form onSubmit={createAccount} className="col s12">
         <div className="row">
           <div className="input-field col s6">
             <input
-              onInput={(event) => setNameInput(event.target.value)}
               id="first_name"
               type="text"
+              value={nameInput}
+              onChange={handleNameChange}
               required
-              className="validate"
+              className={`validate ${nameError ? "invalid" : ""}`}
             />
             <label htmlFor="first_name">First Name</label>
+            {nameError && (
+              <span className="helper-text" data-error={nameError}>
+                {nameError}
+              </span>
+            )}
           </div>
           <div className="input-field col s6">
             <input
-              onInput={(event) => setLastNameInput(event.target.value)}
               id="last_name"
               type="text"
+              value={lastNameInput}
+              onChange={handleLastNameChange}
               required
-              className="validate"
+              className={`validate ${lastNameError ? "invalid" : ""}`}
             />
             <label htmlFor="last_name">Last Name</label>
+            {lastNameError && (
+              <span className="helper-text" data-error={lastNameError}>
+                {lastNameError}
+              </span>
+            )}
           </div>
         </div>
         <div className="row">
           <div className="input-field col s12">
             <input
-              onInput={(event) => setUsernameInput(event.target.value)}
               id="username"
-              required
               type="text"
-              className="validate"
+              value={usernameInput}
+              onChange={handleUsernameChange}
+              required
+              className={`validate ${usernameError ? "invalid" : ""}`}
             />
             <label htmlFor="username">Username</label>
+            {usernameError && (
+              <span className="helper-text" data-error={usernameError}>
+                {usernameError}
+              </span>
+            )}
           </div>
         </div>
         <div className="row">
           <div className="input-field col s12">
             <input
-              onInput={(event) => setPasswordInput(event.target.value)}
               id="password"
               type="password"
+              value={passwordInput}
+              onChange={handlePasswordChange}
               required
-              className="validate"
+              className={`validate ${passwordError ? "invalid" : ""}`}
             />
             <label htmlFor="password">Password</label>
+            {passwordError && (
+              <span className="helper-text" data-error={passwordError}>
+                {passwordError}
+              </span>
+            )}
           </div>
-          <p>{errorMessage}</p>
+          {errorMessage && <p className="red-text">{errorMessage}</p>}
         </div>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <div className="row">
-
-            <input type="submit" value="Create Account" className="waves-effect waves-light teal darken-1 btn"/>
+            <input
+              type="submit"
+              value="Create Account"
+              className="waves-effect waves-light teal darken-1 btn"
+            />
           </div>
           
           <div>
-
             <Link to="/login">Login</Link>
           </div>
         </div>

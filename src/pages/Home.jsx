@@ -63,7 +63,13 @@ export default function Home() {
       <div style={{ marginLeft: "4rem", marginRight: "2rem" }}>
         <ResponsiveDiv
           className="row center-align"
-          style={{ display: "flex", justifyContent: "center", gap: "2rem" }}
+          style={
+            { 
+              display: "flex", 
+              justifyContent: "center",
+              gap: "2rem",
+              marginBottom: "8rem"
+            }}
         >
           <div className="col s12 m4">
             <span
@@ -71,7 +77,6 @@ export default function Home() {
               style={{
                 color: "#1de9b6",
                 transform: "scale(2)",
-                marginBottom: "1rem",
               }}
             >
               flash_on
