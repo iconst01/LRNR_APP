@@ -44,7 +44,6 @@ const Signup = () => {
     );
 
     // Save user in the array users at localStorage
-    // const usersStorage = JSON.parse(localStorage.getItem("users")) || [];
     usersStorage.push(newUser);
     localStorage.setItem("users", JSON.stringify(usersStorage));
 
@@ -121,12 +120,14 @@ const Signup = () => {
         </div>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <div className="row">
-
-            <input type="submit" value="Create Account" className="waves-effect waves-light teal darken-1 btn"/>
+            <input
+              type="submit"
+              value="Create Account"
+              className="waves-effect waves-light teal darken-1 btn"
+            />
           </div>
-          
-          <div>
 
+          <div>
             <Link to="/login">Login</Link>
           </div>
         </div>

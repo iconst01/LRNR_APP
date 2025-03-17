@@ -1,10 +1,15 @@
 import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserProvider";
-import "materialize-css/dist/css/materialize.min.css";
-import "materialize-css/dist/js/materialize.min.js";
+
+import UserInfoCard from "../components/UserInfoCard";
+import UserLevelCard from "../components/UserLevelCard";
+import AccountDashboard from "../components/AccountDashboard";
+
 import "../styles/Account.css";
 import styled from "styled-components";
+import "materialize-css/dist/css/materialize.min.css";
+import "materialize-css/dist/js/materialize.min.js";
 
 const ResponsiveDiv = styled.div`
   margin-left: auto;
@@ -26,94 +31,30 @@ const Account = () => {
   const navigate = useNavigate();
 
   // User global context
-  const { user, setUser } = useContext(UserContext);
-
-  // Function to logout the user
-  const handleLogout = () => {
-    // Delete the user from the localStorage ( This simulate the user being logged in )
-    localStorage.removeItem("user");
-
-    // Remove the user from the global context
-    setUser(null);
-
-    // Send the user to the home page
-    navigate("/");
-  };
+  const { user } = useContext(UserContext);
 
   // Check if the user is login
   useEffect(() => {
-    if (!user) {
-      navigate("/login");
+    if (user?.name) {
       return;
     }
+    navigate("/login");
   }, []);
+
+  if (!user) {
+    return;
+  }
 
   return (
     <div>
-      <div className="titleAcc section teal-text text-darken-5">
-        <h1>Account</h1>
-        {/* This is an example of how the data from the user should be utilized */}
-        <p style={{fontSize: "1.2rem"}}>{user?.name}</p>
+      <div className="section teal-text text-darken-5">
+        <h1 className="titleAcc" style={{ cursor: "pointer" }}>
+          Account
+        </h1>
+        <UserLevelCard />
+        <UserInfoCard />
       </div>
-      <div className="container section">
-        <ResponsiveDiv
-          className="row center-align"
-          style={{ display: "flex", justifyContent: "center", gap: "2rem" }}
-        >
-          <div className="col s12 m4">
-            <span
-              className="material-icons"
-              style={{
-                color: "#1de9b6",
-                transform: "scale(2)",
-                marginBottom: "2rem",
-              }}
-            >
-              whatshot
-            </span>
-            <h5>Streak</h5>
-            <p className="left-align containerTxt">
-              You have a streak of 5 days!
-            </p>
-          </div>
-          <div className="col s12 m4">
-            <span
-              className="material-icons"
-              style={{
-                color: "#1de9b6",
-                transform: "scale(2)",
-                marginBottom: "2rem",
-              }}
-            >
-              view_list
-            </span>
-            <h5>Platinum Quizzes</h5>
-            <ul className="left-align containerTxt">
-              <li>golang - intermediate</li>
-              <li>JavaScript - beginner</li>
-              <li>AWS - beginner</li>
-            </ul>
-          </div>
-          <div className="col s12 m4">
-            <span
-              className="material-icons"
-              style={{
-                color: "#1de9b6",
-                transform: "scale(2)",
-                marginBottom: "2rem",
-              }}
-            >
-              person
-            </span>
-            <h5>lrnr Level: 2</h5>
-            <p className="center-align containerTxt">150/200 xp</p>
-          </div>
-        </ResponsiveDiv>
-        <div>
-         
-        </div>
-      </div>
-      <button onClick={handleLogout} className="logoutBtn waves-effect waves-light teal darken-1 btn">logout</button>
+      <AccountDashboard />
     </div>
   );
 };
