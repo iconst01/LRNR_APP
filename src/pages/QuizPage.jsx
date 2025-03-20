@@ -79,6 +79,105 @@ const QuizPage = () => {
     return isSlightlyCorrect;
   };
 
+  //   const handleSubmit = async () => {
+  //     if (!answer.trim()) {
+  //       setError("Please enter an answer.");
+  //       return;
+  //     }
+
+  //     setIsLoading(true);
+  //     const correctAnswer = answers[currentQuestion];
+  //     const isCorrect = isAnswerCorrect(answer, correctAnswer);
+  //     const updatedUser = user ? { ...user } : null;
+
+  //     if (isCorrect) {
+  //       setCorrectCount((prev) => prev + 1);
+  //       setEvaluationText("Correct! Well done!");
+
+  //       if (user.customTopic) {
+  //         updateXP(updatedUser, 10, user.topic);
+  //       } else {
+  //         updateXP(updatedUser, 10, user.customTopic);
+  //       }
+
+  //       updateStreak(updatedUser);
+  //       if (user) {
+  //         setUser(updatedUser);
+  //       }
+  //     } else {
+  //       updateStreak(updatedUser, false);
+  //       if (user) {
+  //         setUser(updatedUser);
+  //       }
+  //     }
+
+  //     if (user) {
+  //       setUserAnswers((prev) => [
+  //         ...prev,
+  //         {
+  //           question: questions[currentQuestion],
+  //           userAnswer: answer,
+  //           correctAnswer,
+  //           isCorrect,
+  //         },
+  //       ]);
+  //     }
+
+  //     setGeneralAnswers((prev) => [
+  //       ...prev,
+  //       {
+  //         question: questions[currentQuestion],
+  //         userAnswer: answer,
+  //         correctAnswer,
+  //         isCorrect,
+  //       },
+  //     ]);
+
+  //     // If the answer is incorrect, call the API for the evaluation
+  //     if (!isCorrect) {
+  //       try {
+  //         const apiKey = import.meta.env.VITE_API_KEY;
+  //         if (!apiKey) {
+  //           console.error("API key is not defined");
+  //           setEvaluationText("Error: API key is missing.");
+  //           setIsLoading(false);
+  //           return;
+  //         }
+
+  //         const genAI = new GoogleGenerativeAI(apiKey);
+  //         const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+  //         const prompt = `The question is: "${questions[currentQuestion]}".
+  //                 The correct answer is: "${correctAnswer}".
+  //                 The user answered: "${answer}".
+  //                 ### Evaluation Criteria:
+  //                 1. If the user's answer has spelling errors, singular/plural differences, or slight wording changes, **DO NOT** mark it as incorrect but instead award the user with a point.
+  //                 2. If the answer is incorrect or significantly different, explain why and provide the correct reasoning in a **supportive** way.`;
+
+  //         const result = await model.generateContent(prompt);
+  //         const response =
+  //           result.response?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+  //         if (!response) {
+  //           setEvaluationText(
+  //             "Sorry, no evaluation was generated. Please try again."
+  //           );
+  //         } else {
+  //           setEvaluationText(response);
+  //         }
+  //       } catch (error) {
+  //         console.error("Error generating evaluation:", error);
+  //         setEvaluationText(
+  //           "Sorry, something went wrong while generating the evaluation. Please try again."
+  //         );
+  //       }
+  //     }
+
+  //     setShowEvaluation(true);
+  //     setError("");
+  //     setIsLoading(false);
+  //   };
+
   const handleSubmit = async () => {
     if (!answer.trim()) {
       setError("Please enter an answer.");
@@ -88,53 +187,49 @@ const QuizPage = () => {
     setIsLoading(true);
     const correctAnswer = answers[currentQuestion];
     const isCorrect = isAnswerCorrect(answer, correctAnswer);
-    const updatedUser = user ? { ...user } : null;
 
-    if (isCorrect) {
-      setCorrectCount((prev) => prev + 1);
-      setEvaluationText("Correct! Well done!");
+    // Track the answer for both logged-in users and guests
+    const answerData = {
+      question: questions[currentQuestion],
+      userAnswer: answer,
+      correctAnswer,
+      isCorrect,
+    };
 
-      if (!user.customTopic) {
-        updateXP(updatedUser, 10, user.topic);
-      } else {
-        updateXP(updatedUser, 10, user.customTopic);
-      }
+    // Add to general answers list (for all users)
+    setGeneralAnswers((prev) => [...prev, answerData]);
 
-      updateStreak(updatedUser);
-      if (user) {
-        setUser(updatedUser);
-      }
-    } else {
-      updateStreak(updatedUser, false);
-      if (user) {
-        setUser(updatedUser);
-      }
-    }
-
+    // Handle logged-in user specific functionality
     if (user) {
-      setUserAnswers((prev) => [
-        ...prev,
-        {
-          question: questions[currentQuestion],
-          userAnswer: answer,
-          correctAnswer,
-          isCorrect,
-        },
-      ]);
+      // Clone user to avoid direct mutation
+      const updatedUser = { ...user };
+
+      if (isCorrect) {
+        setCorrectCount((prev) => prev + 1);
+
+        // Determine which topic to use for XP update
+        const topicToUpdate = updatedUser.customTopic
+          ? updatedUser.customTopic
+          : updatedUser.topic;
+        updateXP(updatedUser, 10, topicToUpdate);
+        updateStreak(updatedUser, true);
+      } else {
+        updateStreak(updatedUser, false);
+      }
+
+      // Update user state with changes
+      setUser(updatedUser);
+
+      // Track answer history for logged-in users
+      setUserAnswers((prev) => [...prev, answerData]);
     }
 
-    setGeneralAnswers((prev) => [
-      ...prev,
-      {
-        question: questions[currentQuestion],
-        userAnswer: answer,
-        correctAnswer,
-        isCorrect,
-      },
-    ]);
-
-    // If the answer is incorrect, call the API for the evaluation
-    if (!isCorrect) {
+    // Set feedback message for correct answers
+    if (isCorrect) {
+      setEvaluationText("Correct! Well done!");
+    }
+    // For incorrect answers, call the API for evaluation
+    else {
       try {
         const apiKey = import.meta.env.VITE_API_KEY;
         if (!apiKey) {
