@@ -63,13 +63,13 @@ const TopicSelect = () => {
 
   // Example topics (can also be fetched from an API)
   const exampleTopics = [
-    "golang",
-    "aws",
-    "javascript",
-    "CI/CD",
-    "home gardens",
-    "coffee",
-    "finger foods",
+    "Makeup",
+    "Gen z terms",
+    "Princesses",
+    "Disney",
+    "Home gardens",
+    "Coffee",
+    "Finger foods",
   ];
 
   // Initialize Materialize select dropdowns after the component mounts
@@ -160,12 +160,10 @@ Style the questions as if they are spoken by **${formData.styleOfQuestions}**. E
 - If ${formData.styleOfQuestions} is normal style, the questions should be styled like a regular quiz.
 - If the language, tone, and phrasing match the chosen style. For example:
   "Normal" should sound like a regular quiz.
-  "Master Oogway" should sound wise and philosophical.
-  "1940’s gangster" should have a tough, old-school mobster vibe.
-  "Like I'm an 8-year-old" should simplify concepts and be playful.
-  "Jedi" should use Star Wars-themed wisdom and phrasing.
-  "Captain Jack Sparrow" should be witty and pirate-themed.
-  "Matthew McConaughey" should have a laid-back, Southern drawl style.
+"Barbie" should be enthusiastic, positive, and empowering with frequent use of words like "fabulous" and "amazing."
+"Sabrina Carpenter" should be witty, slightly sassy, with pop culture references and a confident, youthful tone.
+"Princess Peach" should be sweet and royal, using regal language with occasional references to the Mushroom Kingdom.
+"Mulan" should be brave and honorable, with references to inner strength, family honor, and determination.
 
 **Requirements:**
 1. Ensure the questions are appropriate for the expertise level (${formData.expertise}).
@@ -342,16 +340,10 @@ Style the questions as if they are spoken by **${formData.styleOfQuestions}**. E
               >
                 <option value="" disabled></option>
                 <option value="normal">Normal</option>
-                <option value="1940's gangster">1940's Gangster</option>
-                <option value="like I'm an 8 year old">
-                  Like I'm an 8 Year Old
-                </option>
-                <option value="jedi">Jedi</option>
-                <option value="captain jack sparrow">
-                  Captain Jack Sparrow
-                </option>
-                <option value="matthew mcconaughey">Matthew McConaughey</option>
-                <option value="master oogway">Master Oogway</option>
+                <option value="Barbie">Barbie</option>
+                <option value="Sabrina Carpenter">Sabrina Carpenter</option>
+                <option value="Princess Peach">Princess Peach</option>
+                <option value="Mulan">Mulan</option>
               </select>
               <label>Style of questions</label>
             </div>
