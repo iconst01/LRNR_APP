@@ -11,7 +11,6 @@ const EvaluationSection = ({correctAnswer, evaluation, handleNext, isLastQuestio
                     <h6>Correct Answer: {correctAnswer}</h6>
                  
                 </div>
-
                 {/* Right Side - Explanation */}
                 <div className="evalRight">
                     <p>{evaluation}</p>
