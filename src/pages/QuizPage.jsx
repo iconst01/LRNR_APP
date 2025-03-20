@@ -78,7 +78,7 @@ const QuizPage = () => {
 
     return isSlightlyCorrect;
   };
-
+  
   const handleSubmit = async () => {
     if (!answer.trim()) {
       setError("Please enter an answer.");
@@ -88,53 +88,49 @@ const QuizPage = () => {
     setIsLoading(true);
     const correctAnswer = answers[currentQuestion];
     const isCorrect = isAnswerCorrect(answer, correctAnswer);
-    const updatedUser = user ? { ...user } : null;
 
-    if (isCorrect) {
-      setCorrectCount((prev) => prev + 1);
-      setEvaluationText("Correct! Well done!");
+    // Track the answer for both logged-in users and guests
+    const answerData = {
+      question: questions[currentQuestion],
+      userAnswer: answer,
+      correctAnswer,
+      isCorrect,
+    };
 
-      if (!user.customTopic) {
-        updateXP(updatedUser, 10, user.topic);
-      } else {
-        updateXP(updatedUser, 10, user.customTopic);
-      }
+    // Add to general answers list (for all users)
+    setGeneralAnswers((prev) => [...prev, answerData]);
 
-      updateStreak(updatedUser);
-      if (user) {
-        setUser(updatedUser);
-      }
-    } else {
-      updateStreak(updatedUser, false);
-      if (user) {
-        setUser(updatedUser);
-      }
-    }
-
+    // Handle logged-in user specific functionality
     if (user) {
-      setUserAnswers((prev) => [
-        ...prev,
-        {
-          question: questions[currentQuestion],
-          userAnswer: answer,
-          correctAnswer,
-          isCorrect,
-        },
-      ]);
+      // Clone user to avoid direct mutation
+      const updatedUser = { ...user };
+
+      if (isCorrect) {
+        setCorrectCount((prev) => prev + 1);
+
+        // Determine which topic to use for XP update
+        const topicToUpdate = updatedUser.customTopic
+          ? updatedUser.customTopic
+          : updatedUser.topic;
+        updateXP(updatedUser, 10, topicToUpdate);
+        updateStreak(updatedUser, true);
+      } else {
+        updateStreak(updatedUser, false);
+      }
+
+      // Update user state with changes
+      setUser(updatedUser);
+
+      // Track answer history for logged-in users
+      setUserAnswers((prev) => [...prev, answerData]);
     }
 
-    setGeneralAnswers((prev) => [
-      ...prev,
-      {
-        question: questions[currentQuestion],
-        userAnswer: answer,
-        correctAnswer,
-        isCorrect,
-      },
-    ]);
-
-    // If the answer is incorrect, call the API for the evaluation
-    if (!isCorrect) {
+    // Set feedback message for correct answers
+    if (isCorrect) {
+      setEvaluationText("Correct! Well done!");
+    }
+    // For incorrect answers, call the API for evaluation
+    else {
       try {
         const apiKey = import.meta.env.VITE_API_KEY;
         if (!apiKey) {
@@ -146,7 +142,6 @@ const QuizPage = () => {
 
         const genAI = new GoogleGenerativeAI(apiKey);
         const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
         const prompt = `The question is: "${questions[currentQuestion]}".  
                 The correct answer is: "${correctAnswer}".  
                 The user answered: "${answer}".  
