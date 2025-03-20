@@ -69,7 +69,6 @@ const TopicSelect = () => {
     "Disney",
     "Home gardens",
     "Coffee",
-    "Finger foods",
   ];
 
   // Initialize Materialize select dropdowns after the component mounts
