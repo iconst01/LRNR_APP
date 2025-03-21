@@ -212,7 +212,6 @@ const Signup = () => {
               className="waves-effect waves-light teal darken-1 btn"
             />
           </div>
-          
           <div>
             <Link to="/login">Login</Link>
           </div>

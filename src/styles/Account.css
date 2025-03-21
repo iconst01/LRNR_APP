@@ -197,6 +197,8 @@
     background-color: #DBDCDD;
     height: 80%;
     width: 1.5px;
+    position: relative;
+    left: -4rem;
 }
 
 .seperator3 {
@@ -274,14 +276,25 @@
     flex-direction: column;
     align-items: center;
     margin-left: 0.5rem;
+    position: relative;
+    left: 2rem;
+  
+
 }
 
 .badgeIconWrapper p {
     margin-top: -2.5rem;
+    text-wrap: wrap;
+    position: relative;
+    
 }
 
 .badgesListTitle {
     font-weight: 600;
+}
+
+.badgeIcon p {
+    color: red;
 }
 
 .yourQuizBarWrapper {
@@ -381,6 +394,16 @@
         * {
             justify-self: left;
         }
+    }
+
+   
+    .yourQuizzesText {
+        display: none;
+    }
+
+    .sidebarWrapper {
+        position: relative;
+        left: -3rem;
     }
 
 }
