@@ -75,7 +75,7 @@ const Login = () => {
               type="text"
               className="validate"
               required
-              style={{ width: "380px" }}
+              style={{ width: "380px",  }}
             />
             <label htmlFor="username">Username</label>
           </div>
@@ -95,12 +95,12 @@ const Login = () => {
         </div>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <div className="row">
-            <input type="submit" value="Login" className="waves-effect waves-light teal darken-1 btn" />
+            <input type="submit" value="Login" className="waves-effect waves-light btn" style={{backgroundColor: "#22C2C6"}}/>
           </div>
           
           <div>
 
-            <Link to="/signup">Create an account</Link>
+            <Link to="/signup" style={{color: "#22C2C6"}}>Create an account</Link>
           </div>
         </div>
       </form>

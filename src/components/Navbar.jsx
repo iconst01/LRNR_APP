@@ -27,8 +27,8 @@ export default function Navbar() {
 
   return (
     <>
-      <nav style={{ marginBottom: "4rem" }}>
-        <div className="nav-wrapper light-blue darken-2">
+      <nav style={{ marginBottom: "4rem", backgroundColor: "#103C59" }}>
+        <div className="nav-wrapper ">
 
           <Link to="/" className="brand-logo left" style={{ marginLeft: "100px" }}>
             lrnr

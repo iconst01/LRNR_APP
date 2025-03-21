@@ -51,8 +51,8 @@ export default function Home() {
           <div style={{ display: "flex", justifyContent: "center" }}>
             <Link
               to="/quiz-gen"
-              className="waves-effect waves-light btn btn-large"
-              style={{ marginBottom: "18%" }}
+              className="waves-effect btn btn-large"
+              style={{ marginBottom: "18%", backgroundColor: "#22C2C6" }}
             >
               BEGIN JOURNEY
             </Link>
@@ -75,8 +75,10 @@ export default function Home() {
             <span
               className="material-icons"
               style={{
-                color: "#1de9b6",
+                color: "#E49602",
                 transform: "scale(2)",
+                marginBottom: "0.5rem",
+                marginTop: "1rem"
               }}
             >
               flash_on
@@ -95,7 +97,7 @@ export default function Home() {
             <span
               className="material-icons"
               style={{
-                color: "#1de9b6",
+                color: "#E49602",
                 transform: "scale(2)",
                 marginBottom: "1rem",
               }}
@@ -115,7 +117,7 @@ export default function Home() {
             <span
               className="material-icons"
               style={{
-                color: "#1de9b6",
+                color: "#E49602",
                 transform: "scale(2)",
                 marginBottom: "1rem",
               }}

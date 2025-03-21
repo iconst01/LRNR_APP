@@ -8,8 +8,8 @@ export default function Footer() {
  return (
   //moves the footer down on the account page
   useLocation().pathname === "/account" ? (<footer
-  className="light-blue darken-2 quizFooter"
-  style={{ marginTop: "8rem", position: "relative", bottom: "-50vh", paddingBottom: "1%" }}
+  className="quizFooter"
+  style={{ marginTop: "8rem", position: "relative", bottom: "-50vh", paddingBottom: "1%"}}
 >
   <div style={{marginLeft: "2rem"}}>
     <div className="row">
@@ -39,8 +39,8 @@ export default function Footer() {
 
 //the footer for the other pages
    <footer
-     className="page-footer light-blue darken-2 quizFooter"
-     style={{ marginTop: "8rem" }}
+     className="page-footer quizFooter"
+     style={{ marginTop: "8rem", backgroundColor: "#103C59" }}
    >
      <div style={{marginLeft: "2rem"}}>
        <div className="row">
