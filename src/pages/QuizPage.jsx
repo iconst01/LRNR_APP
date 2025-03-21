@@ -24,6 +24,7 @@ const QuizPage = () => {
   const [generalAnswers, setGeneralAnswers] = useState([]);
   const [correctCount, setCorrectCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [correctAnswerTotal, setCorrectAnswerTotal] = useState(0);
   const navigate = useNavigate();
   const { user, setUser } = useContext(UserContext);
 
@@ -128,6 +129,7 @@ const QuizPage = () => {
     // Set feedback message for correct answers
     if (isCorrect) {
       setEvaluationText("Correct! Well done!");
+      setCorrectAnswerTotal(correctAnswerTotal + 1);
     }
     // For incorrect answers, call the API for evaluation
     else {
@@ -187,6 +189,7 @@ const QuizPage = () => {
           userAnswers,
           correctCount,
           totalQuestions: numberOfQuestions,
+          correctAnswerTotal,
         },
       });
     }

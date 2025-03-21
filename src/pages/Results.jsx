@@ -1,19 +1,27 @@
 // Import necessary hooks and components from React and other libraries
+import { useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { UserContext } from "../context/UserProvider";
 import "../styles/Results.css";
 import "materialize-css/dist/css/materialize.min.css";
 import "materialize-css/dist/js/materialize.min.js";
 
 // Define the ResultsPage component
 const ResultsPage = () => {
+  const { user } = useContext(UserContext);
   // useLocation hook to access the state passed from the previous component
   const location = useLocation();
   // useNavigate hook to programmatically navigate to different routes
   const navigate = useNavigate();
   // Destructure state to get userAnswers, correctCount, and totalQuestions
-  const { generalAnswers, userAnswers, correctCount, totalQuestions } =
-    location.state || {};
+  const {
+    generalAnswers,
+    userAnswers,
+    correctCount,
+    totalQuestions,
+    correctAnswerTotal,
+  } = location.state || {};
 
   return (
     // Use motion.div to add animations to the component
@@ -29,7 +37,8 @@ const ResultsPage = () => {
         <h1 className="center-align teal-text text-darken-5">lrnr</h1>
         {/* Display the number of correct answers out of total questions */}
         <h5>
-          Questions Right: {correctCount} / {totalQuestions}
+          Questions Right: {user ? correctCount : correctAnswerTotal} /{" "}
+          {totalQuestions}
         </h5>
 
         {/* Section for the "Try Another Quiz" button */}
