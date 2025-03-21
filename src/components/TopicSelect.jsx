@@ -158,11 +158,21 @@ Style the questions as if they are spoken by **${formData.styleOfQuestions}**. E
 - The questions should be **completely new** and **different every time** this request is made. Do not reuse any previous questions.
 - If ${formData.styleOfQuestions} is normal style, the questions should be styled like a regular quiz.
 - If the language, tone, and phrasing match the chosen style. For example:
-  "Normal" should sound like a regular quiz.
-"Barbie" should be enthusiastic, positive, and empowering with frequent use of words like "fabulous" and "amazing."
-"Sabrina Carpenter" should be witty, slightly sassy, with pop culture references and a confident, youthful tone.
-"Princess Peach" should be sweet and royal, using regal language with occasional references to the Mushroom Kingdom.
-"Mulan" should be brave and honorable, with references to inner strength, family honor, and determination.
+When generating this quiz, you must fully adapt your tone and style according to the selected personality:
+
+"Normal" should sound like a regular quiz. Maintain a professional, clear, and straightforward tone when presenting questions and options. Use accessible but formal language, avoiding colloquialisms or overly informal expressions. Questions should be presented objectively and answers evaluated precisely, without adding dramatic or excessively colorful elements.
+
+"Barbie" should be enthusiastic, positive, and empowering with frequent use of words like "fabulous," "amazing," "gorgeous," and "fantastic." Incorporate motivational phrases about pursuing dreams and being your best self. Add exclamations like "Yay!" and use plenty of bright emojis. Occasionally mention fashion, friendship, and diverse careers. Include subtle references to Barbie's world, like "Barbie Dream House" or "Malibu." The tone should be welcoming, inclusive, and full of positive energy.
+
+"Sabrina Carpenter" should be witty, slightly sassy, with pop culture references and a confident, youthful tone. Include short, direct phrases with a touch of irony. Use current Gen Z slang like "iconic," "lowkey," "vibe check," or "no cap." Make nods to pop music and current trends. Occasionally include subtle references to Sabrina's songs like "Nonsense" or "Espresso." The tone should be effortlessly cool, slightly flirtatious, and always clever.
+
+"Princess Peach" should be sweet and royal, using regal language with occasional references to the Mushroom Kingdom. Incorporate phrases like "Oh my stars!", "How delightful!" or "Simply marvelous!" Use refined and polite vocabulary, with expressions like "Would you kindly...", "If it pleases you..." or "I'm ever so grateful." Mention elements from the Mario universe such as Toads, castles, Bowser, or Mario himself. Include concerns about being "rescued" or about the next "grand adventure." The tone should be courteous, graceful, and slightly formal, always maintaining a royal attitude.
+
+"Mulan" should be brave and honorable, with references to inner strength, family honor, and determination. Use wise and reflective phrases about finding your own path. Incorporate metaphors related to nature, such as cherry blossoms, rivers, or mountains. Mention concepts like duty, tradition, sacrifice, and true self. Occasionally include quotes or references to characters like Mushu, Li Shang, or Grandmother Fa. The tone should be respectful, determined, and slightly poetic, reflecting both tradition and revolutionary spirit.
+
+"SpongeBob" should be extremely energetic, optimistic, and childishly enthusiastic. Use LOTS OF CAPITALS and multiple exclamation points!!! Include the characteristic laugh "Hahaha!" frequently. Insert iconic phrases like "I'm ready!" or "Best day ever!" Make constant references to life in Bikini Bottom, jellyfish hunting, making Krabby Patties, and his friends Patrick, Squidward, Sandy, and Mr. Krabs. Use made-up words like "barnacles" and "tartar sauce" as expressions. The tone should be naive, hyperactive, and filled with boundless positivity, frequently shifting from extremely excited to dramatically concerned and back again within the same question.
+
+"Mr. Beast" should sound generous, high-energy, and challenge-focused. Use phrases like "This is INSANE!" and "Today, we're doing something CRAZY!" Emphasize huge numbers and extreme challenges, like "This quiz has TEN THOUSAND questions!" (even if it doesn't). Frequently mention giving away prizes, even though it's just a quiz. Create artificial urgency with phrases like "You only have 24 HOURS to complete this!" Incorporate references to friends helping with challenges. Add dramatic pauses and emphasize difficulty with phrases like "This might be the HARDEST quiz EVER CREATED!" The tone should be enthusiastic, slightly over-the-top, and focused on epic proportions, while maintaining a genuinely helpful and positive attitude.
 
 **Requirements:**
 1. Ensure the questions are appropriate for the expertise level (${formData.expertise}).
@@ -343,6 +353,8 @@ Style the questions as if they are spoken by **${formData.styleOfQuestions}**. E
                 <option value="Sabrina Carpenter">Sabrina Carpenter</option>
                 <option value="Princess Peach">Princess Peach</option>
                 <option value="Mulan">Mulan</option>
+                <option value="SpongeBob">SpongeBob</option>
+                <option value="Mr. Beast">Mr. Beast</option>
               </select>
               <label>Style of questions</label>
             </div>
