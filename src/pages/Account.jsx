@@ -48,7 +48,8 @@ const Account = () => {
   return (
     <div>
       <div className="section teal-text text-darken-5">
-        <h1 className="titleAcc" style={{ cursor: "pointer" }}>
+        <h1 className="titleAcc" style={{ cursor: "pointer", color: "#22C2C6" }}
+        >
           Account
         </h1>
         <UserLevelCard />

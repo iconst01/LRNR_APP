@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-import logo from "../assets/logo.png";
+import logo from "../assets/app.png";
 // import Footer from "../components/Footer";
 import styled from "styled-components";
 
@@ -35,7 +35,7 @@ export default function Home() {
           <img
             src={logo}
             alt=""
-            style={{ width: "min(32rem, 80%)", height: "min(12em, 20vh)" }}
+            style={{ width: "min(32rem, 80%)", height: "min(12em, 20vh)", borderRadius: "10px", objectFit: "cover"}}
           />
           <h5
             style={{
@@ -51,8 +51,8 @@ export default function Home() {
           <div style={{ display: "flex", justifyContent: "center" }}>
             <Link
               to="/quiz-gen"
-              className="waves-effect waves-light btn btn-large"
-              style={{ marginBottom: "18%" }}
+              className="waves-effect btn btn-large"
+              style={{ marginBottom: "18%", backgroundColor: "#22C2C6" }}
             >
               BEGIN JOURNEY
             </Link>
@@ -74,27 +74,24 @@ export default function Home() {
             <span
               className="material-icons"
               style={{
-                color: "#1de9b6",
+                color: "#E49602",
                 transform: "scale(2)",
+                marginBottom: "0.5rem",
+                marginTop: "1rem"
               }}
             >
               flash_on
             </span>
             <h5>Personalized Quizzes</h5>
             <p className="left-align">
-              Greetings, young padawan. Are you ready to embark on a journey of
-              personalized enlightenment through the art of coding? Our app can
-              create custom quizzes that align with your coding skills and
-              interests. Whether you are a novice or a master, our system can
-              generate questions that will test your proficiency in programming
-              languages, tools, and concepts.
+            Greetings, eager learner! Are you ready to embark on a journey of personalized growth and discovery? Our app creates custom quizzes tailored to your knowledge level and interests. Whether you're just starting or already an expert, our system generates questions that challenge your understanding across various subjects, helping you learn and improve in a fun and engaging way.
             </p>
           </div>
           <div className="col s12 m4">
             <span
               className="material-icons"
               style={{
-                color: "#1de9b6",
+                color: "#E49602",
                 transform: "scale(2)",
                 marginBottom: "1rem",
               }}
@@ -114,7 +111,7 @@ export default function Home() {
             <span
               className="material-icons"
               style={{
-                color: "#1de9b6",
+                color: "#E49602",
                 transform: "scale(2)",
                 marginBottom: "1rem",
               }}

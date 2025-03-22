@@ -6,6 +6,7 @@ import { UserContext } from "../context/UserProvider";
 import "../styles/Results.css";
 import "materialize-css/dist/css/materialize.min.css";
 import "materialize-css/dist/js/materialize.min.js";
+import logo from "../assets/logoA.svg"
 
 // Define the ResultsPage component
 const ResultsPage = () => {
@@ -34,7 +35,7 @@ const ResultsPage = () => {
       {/* Main container for the results page */}
       <div className="section container center-align">
         {/* Heading for the page */}
-        <h1 className="center-align teal-text text-darken-5">lrnr</h1>
+        <h1 className="center-align"><img src={logo} alt="logo" style={{width: "13rem"}}/></h1>
         {/* Display the number of correct answers out of total questions */}
         <h5>
           Questions Right: {user ? correctCount : correctAnswerTotal} /{" "}
@@ -44,8 +45,9 @@ const ResultsPage = () => {
         {/* Section for the "Try Another Quiz" button */}
         <div className="section">
           <button
-            className="btnTry waves-effect waves-light teal darken-1 btn-large"
+            className="btnTry waves-effect waves-light btn-large"
             onClick={() => navigate("/quiz-gen")} // Navigate to the quiz generation page
+            style={{ backgroundColor: "#22C2C6" }}
           >
             TRY ANOTHER QUIZ
           </button>
