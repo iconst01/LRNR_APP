@@ -229,9 +229,10 @@ const QuizPage = () => {
       ) : !showEvaluation ? (
         <div className="section">
           <button
-            className="waves-effect waves-light teal darken-1 btn-large"
+            className="waves-effect waves-light btn-large"
             onClick={handleSubmit}
             disabled={isLoading}
+            style={{backgroundColor: "#22C2C6"}}
           >
             SUBMIT ANSWER
           </button>

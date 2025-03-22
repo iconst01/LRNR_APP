@@ -11,17 +11,20 @@ export default function Footer() {
     <footer
       className={`${
         isAccountPage ? "" : "page-footer"
-      } light-blue darken-2 quizFooter`}
+      } z quizFooter`}
       style={{
         marginTop: "8rem",
+        backgroundColor: "#103C59",
         ...(isAccountPage && {
           position: "relative",
           bottom: "-50vh",
           paddingBottom: "1%",
+          backgroundColor: "#103C59"
+          
         }),
       }}
     >
-      <div style={{ marginLeft: "2rem" }}>
+      <div style={{ marginLeft: "2rem",backgroundColor: "#103C59" }}>
         <div className="row">
           <div className="col l6 s12">
             <p className="grey-text text-lighten-4">

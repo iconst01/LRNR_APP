@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-import logo from "../assets/logo.png";
+import logo from "../assets/app.png";
 // import Footer from "../components/Footer";
 import styled from "styled-components";
 
@@ -35,7 +35,7 @@ export default function Home() {
           <img
             src={logo}
             alt=""
-            style={{ width: "min(32rem, 80%)", height: "min(12em, 20vh)" }}
+            style={{ width: "min(32rem, 80%)", height: "min(12em, 20vh)", borderRadius: "10px", objectFit: "cover"}}
           />
           <h5
             style={{
@@ -85,12 +85,7 @@ export default function Home() {
             </span>
             <h5>Personalized Quizzes</h5>
             <p className="left-align">
-              Greetings, young padawan. Are you ready to embark on a journey of
-              personalized enlightenment through the art of coding? Our app can
-              create custom quizzes that align with your coding skills and
-              interests. Whether you are a novice or a master, our system can
-              generate questions that will test your proficiency in programming
-              languages, tools, and concepts.
+            Greetings, eager learner! Are you ready to embark on a journey of personalized growth and discovery? Our app creates custom quizzes tailored to your knowledge level and interests. Whether you're just starting or already an expert, our system generates questions that challenge your understanding across various subjects, helping you learn and improve in a fun and engaging way.
             </p>
           </div>
           <div className="col s12 m4">

@@ -204,16 +204,17 @@ const Signup = () => {
           </div>
           {errorMessage && <p className="red-text">{errorMessage}</p>}
         </div>
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <div style={{ display: "flex", justifyContent: "space-between"  }}>
           <div className="row">
             <input
               type="submit"
               value="Create Account"
-              className="waves-effect waves-light teal darken-1 btn"
+              className="waves-effect waves-light  btn"
+              style={{backgroundColor: "#22C2C6"}}
             />
           </div>
           <div>
-            <Link to="/login">Login</Link>
+            <Link to="/login" style={{color: "#22C2C6"}}>Login</Link>
           </div>
         </div>
       </form>

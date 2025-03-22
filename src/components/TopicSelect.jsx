@@ -361,9 +361,10 @@ When generating this quiz, you must fully adapt your tone and style according to
 
             {/* Submit button */}
             <button
-              className="btn waves-effect waves-light teal"
+              className="btn waves-effect waves-light"
               type="submit"
               disabled={loading}
+              style={{ backgroundColor: "#22C2C6" }}
             >
               SUBMIT
             </button>

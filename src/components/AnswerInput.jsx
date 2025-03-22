@@ -3,7 +3,7 @@ function AnswerInput({ answer, setAnswer, error }) {
     return (
         <div className="section answerContainer">
             <div>
-                <h4 className="teal-text text-darken-5">Your Answer</h4>
+                <h4 style={{color: "#22C2C6"}}>Your Answer</h4>
                 <div className="input-field">
                     <input
                         id="answer"

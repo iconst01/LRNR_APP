@@ -2,7 +2,7 @@ import React from "react";
 function QuestionContainer({question}) {
     return (
         <div>
-            <h4 className="teal-text text-darken-5">Question</h4>
+            <h4 style={{color: "#22C2C6"}}>Question</h4>
             <p>{question}</p>
         </div>
     );
