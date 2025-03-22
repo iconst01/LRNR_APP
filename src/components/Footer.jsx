@@ -28,8 +28,19 @@ export default function Footer() {
               Embrace the power of our app and unlock the secrets of the
               universe, one quiz at a time. <br /> As I always say 'Yesterday is
               history, tomorrow is a mystery, but today is a gift. That is{" "}
-              <br /> why it's called the present.'
+              <br /> why it's called the present.
             </p>
+            <div className="footer-copyrigh">
+              <div
+                style={
+                  isAccountPage
+                    ? { color: "white", marginLeft: "2.5rem" }
+                    : { className: "container" }
+                }
+              >
+                © 2025 LRNR
+              </div>
+            </div>
           </div>
           <div className="col l4 offset-l2 s12">
             <h5 className="white-text">Links</h5>
@@ -59,17 +70,6 @@ export default function Footer() {
               )}
             </ul>
           </div>
-        </div>
-      </div>
-      <div className="footer-copyright">
-        <div
-          style={
-            isAccountPage
-              ? { color: "white", marginLeft: "2.5rem" }
-              : { className: "container" }
-          }
-        >
-          © 2025 LRNR
         </div>
       </div>
     </footer>

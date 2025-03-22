@@ -27,9 +27,7 @@ const ResponsiveDiv = styled.div`
   }
 `;
 
-
 export default function Home() {
-
   return (
     <>
       <div className="container main">
@@ -46,7 +44,7 @@ export default function Home() {
               fontSize: "clamp(1em, 3vw, 1.7em)",
             }}
           >
-            Your guided path to programming enlightnment
+            Create your own personalized quiz with AI.
           </h5>
           <br />
           <br />
@@ -65,13 +63,12 @@ export default function Home() {
       <div style={{ marginLeft: "4rem", marginRight: "2rem" }}>
         <ResponsiveDiv
           className="row center-align"
-          style={
-            { 
-              display: "flex", 
-              justifyContent: "center",
-              gap: "2rem",
-              marginBottom: "8rem"
-            }}
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            gap: "2rem",
+            marginBottom: "8rem",
+          }}
         >
           <div className="col s12 m4">
             <span
